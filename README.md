@@ -63,7 +63,7 @@
   <div id="digits"></div>
 ```
 
-## 02. Seguimos eon el archivo **`sudoku.css`**
+## 02. Seguimos con el archivo **`sudoku.css`**
 1. Cargamos el tema que va a usar el `<body>`:
 ```css
 body {
