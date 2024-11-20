@@ -62,3 +62,83 @@
   <br>
   <div id="digits"></div>
 ```
+
+## 02. Seguimos eon el archivo **`sudoku.css`**
+1. Cargamos el tema que va a usar el `<body>`:
+```css
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  text-align: center;
+}
+```
+2. Luego como van a ser los `<hr>`:
+```css
+hr {
+  width: 500px;
+}
+```
+3. El `id = "errors"`:
+```css
+#errors {
+  color: coral;
+}
+```
+4. Como llenamos el `id = "board"`:
+```css
+#board {
+  width: 450px;
+  height: 450px;
+
+  background-color: yellow;
+  margin: 0 auto;
+  display: flex;
+  flex-wrap: wrap;
+}
+```
+5. Hacemos estilos para `id="digits">`:
+```css
+#digits {
+  width: 450px;
+  height: 450px;
+
+  background-color: yellow;
+  margin: 0 auto;
+  display: flex;
+  flex-wrap: wrap;  
+}
+```
+
+>[!NOTE]  
+>Así se ve la pantalla en un browser:  
+>![El browser con lo básico](images/2024-11-20_115855.png)
+
+6. Ponemos mas en el **`sudoku.css`**, para una futura clase de nombre
+`class = "tile"`:
+```css
+.tile {
+  width: 48;
+  height: 48;
+  border: 1px solid lightgray;
+
+  /* Text */
+  font-size: 20px;
+  font-weight: bold;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+```
+7. En el archivo **`sudoku.css`**, para una futura clase de nombre
+`class = "number"`, similar al anterior:
+```css
+  width: 48;
+  height: 48;
+  border: 1px solid black;
+
+  /* Text */
+  font-size: 20px;
+  font-weight: bold;
+  display: flex;
+  justify-content: center;
+  align-items: center;  
+```
