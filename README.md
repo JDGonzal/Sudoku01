@@ -214,7 +214,7 @@ hr {
 >[!TIP]  
 >Esta es la solición propuesta para implementar en el archivo 
 >**`sudoku.js`**:  
->![](images/2024-11-20_120909.png)
+>![sudoku plan inicial](images/2024-11-20_120909.png)
 
 1. Empezamos inicializando las variables a utilizar:
 ```js
@@ -315,7 +315,7 @@ for (let x = 0; x < 9; x++) {
 
 >[!NOTE]  
 >Así se ve el tablero en el browser hasta el momento:  
->![](images/2024-11-20_180309.png)
+>![sudoku cuadricula en blanco](images/2024-11-20_180309.png)
 
 >[!WARNING]  
 >Como se ejecutaron elementos de `npm` y/o `pnpm`, este genera un 
@@ -452,3 +452,78 @@ el archivo **`sudoku.js`**, en el método `setGame()` debajo de
 >  }
 >};
 >```
+
+## 05. Completando el juego de forma manual
+1. En el archivo **`sudoku.css`** invocamos una clase de nombre
+`class = 'tile-start'`:
+```css
+.tile-start {
+  background-color:whitesmoke;
+}
+```
+2. En el archivo **`sudoku.js`** en el método `setGame()`, cuando se
+está creando el `Tablero 9x9`, dentro del condicional 
+`if (board[x][y] !== '-')`, añadimo esto:
+```js
+      if (board[x][y] !== '-') {
+        tileList.innerText = board[x][y];
+        tileList.classList.add('tile-start');
+      }
+```
+3. En el archivo **`sudoku.css`**, añadimos dos clases que son
+`horizontal-line` y `vertical-line`:
+```css
+.horizontal-line {
+  border-bottom: 1px solid black;
+}
+
+.vertical-line {
+  border-right: 1px solid black;
+}
+```
+4. En el archivo **`sudoku.js`** en el método `setGame()`, cuando se
+está creando el `Tablero 9x9`, agregamos un condicional, para poner
+las `.horizontal-line` y las `.vertical-line`:
+```js
+      if (x === 2 || x === 5) {
+        tileList.classList.add('horizontal-line');
+      }
+      if (y === 2 || y === 5) {
+        tileList.classList.add('vertical-line');
+      }
+```
+
+>[!NOTE]  
+>Así se ve hasta el momento el juego en pantalla:  
+>![sutoku 3x3](images/2024-11-22_154913.png)
+
+5. Empezamos el proceso para comparar con la solución, en 
+**`sudoku.js`**, dentro del método `selectTile()`, creamos una
+variable con las coordenadas en forma de arreglo `string`:
+```js
+    const coords = this.id.split('-'); // Crea un arreglo
+```
+6. Se requiere convertir dichos valores a enteros en dos variables:
+```js
+    const x = parseInt(coords[0]);
+    const y = parseInt(coords[1]);
+```
+7. Si es igual a la solución lo asigno a la cuadrícula:
+```js
+    if (solution[x][y] === numSelected.id) {
+      this.innerText = numSelected.id;
+    }
+```
+8. Elimino o comento la línea anterior en el método `selectTile()` 
+con las asignación `this.innerText = numSelected.id;`.
+9. Agregamos un `else` a la condición 
+`if (solution[x][y] === numSelected.id)`:
+```js
+    if (solution[x][y] === numSelected.id) {
+      this.innerText = numSelected.id;
+    } else {
+      errors += 1; // Incremento los errores.
+      // Lo muestro en pantalla el valor incrementado
+      document.getElementById('errors').innerText = errors;
+    }
+```
