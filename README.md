@@ -350,3 +350,105 @@ for (let x = 0; x < 9; x++) {
 >*.sln
 >*.sw?
 >```
+
+## 04. Empezamos el juego y sus reglas en **`sudoku.js`**
+1. Creamos la función `selectNumber()`, por ahora vacía:  
+`const selectNumber = () => {}`
+2. En el método `setGame()`, añadimos al `numberList` la _escucha_ 
+del `'click'`, justo debajo del `innerText = i`, llamando la nueva
+función:
+```js
+    numberList.addEventListener('click', selectNumber);
+```
+3. Cada ve que seleccionamos un número, cambiamos el color de la 
+casilla basados en la clase `number-selected` en el archivo
+ **`sudoku.css`**:
+```css
+.number-selected {
+  background-color: gray;
+}
+```
+>[!CAUTION]  
+>Inicialmente la función la declaré como `const selectNumber = () => {}`
+>pero no funciona, toca cambiar a `function selectNumber () {}`
+
+4. Ahora bien la clase no existe, la hacemos aparecer en el archivo
+**`sudoku.js`**, en el método `selectNumber()`:
+```js
+function selectNumber () {
+  numSelected = this; // asigno el valor de `numberList`
+  numSelected.classList.add('number-selected');
+};
+```
+* Cada vez que haga click al número de abajo, se pone de fondo `gray`.
+
+5. En la función `selectNumber()`, antes de crear la clase 
+`'number-selected'`, preguntamos si es `null` para eliminar dicha clase:
+```js
+function selectNumber () {
+  if (numSelected != null) {
+    numSelected.classList.remove('number-selected');
+  }
+  numSelected = this; // asigno el valor de `numberList`
+  numSelected.classList.add('number-selected'); // sudoku.css
+};
+```
+
+>[!WARNING]  
+>El punto 5 no funciona o genera errores, solo es corregir la
+>definición de estas variables en las primeras líneas, es decir
+>cambiar el `const` por el `let`:
+>```js
+>let numSelected = null;
+>let tileSelected = null;
+>
+>let errors = 0;
+
+6. Agregamos otra función de nombre `selectTile()`, con este código:  
+```js
+function selectTile () {
+  if (numSelected) {
+    this.innerText = numSelected.id; // Asigno el valor a la cuadrícula
+  }
+}
+```
+7. En el método `setGame()`, añadimos al `tileList` la _escucha_ 
+del `'click'`, justo debajo del `tileList.id = `, llamando la nueva
+función `selectTile()`:
+```js
+    tileList.addEventListener('click', selectTile);
+```
+8. Mejoramos con una condición en el método `selectTile()`:
+```js
+function selectTile () {
+  if (numSelected) {
+    if (this.innerText !== '') return; // Si tiene datos no hace nada
+    this.innerText = numSelected.id;// Asigno el valor a la cuadrícula
+  }
+}
+```
+9. Ahora poblamos las cuadrículas con los valores de `board`, en
+el archivo **`sudoku.js`**, en el método `setGame()` debajo de
+`tileList.id =`, ponemos esto:
+```js
+      if (board[x][y] !== '-') {
+        tileList.innerText = board[x][y];
+      }
+```
+
+>[!WARNING]  
+>### Se debe corregir la variable `board`, pues faltaba una fila.
+
+>[!TIP]  
+>Una forma de recorrido por lo hijos de un HTML basados en el padre
+>para borrar el nombre de la clase.
+>```js
+>const removeChildClass = (fatherId, className) => {
+>  const fatherElement = document.getElementById(fatherId);
+>  for (const childElement of fatherElement.children) {
+>    if (childElement.classList.contains(className)) {
+>      childElement.classList.remove(className);
+>    }
+>  }
+>};
+>```
