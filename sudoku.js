@@ -55,6 +55,14 @@ const setGame = () => {
       // Poblamos (Polulate) la cuadrícula con `board`
       if (board[x][y] !== '-') {
         tileList.innerText = board[x][y];
+        tileList.classList.add('tile-start');
+      }
+      // para poner las `.horizontal-line` y las `.vertical-line`
+      if (x === 2 || x === 5) {
+        tileList.classList.add('horizontal-line');
+      }
+      if (y === 2 || y === 5) {
+        tileList.classList.add('vertical-line');
       }
       // Añadimos la _escucha_ el evento `click`
       tileList.addEventListener('click', selectTile);
@@ -78,6 +86,20 @@ function selectNumber () {
 function selectTile () {
   if (numSelected) {
     if (this.innerText !== '') return; // Si tiene datos no hace nada
-    this.innerText = numSelected.id;// Asigno el valor a la cuadrícula
+
+    // Establecemos el comparativo con la `solution`
+    // Se crea un arreglo con los valores de `x` y `y``
+    const coords = this.id.split('-'); // Crea un arreglo
+    // Llevo a dos variable en forma de Enteros
+    const x = parseInt(coords[0]);
+    const y = parseInt(coords[1]);
+    // Si es igual a la solución lo asigno a la cuadrícula
+    if (solution[x][y] === numSelected.id) {
+      this.innerText = numSelected.id;
+    } else {
+      errors += 1; // Incremento los errores.
+      // Lo muestro en pantalla el valor incrementado
+      document.getElementById('errors').innerText = errors;
+    }
   }
 }
