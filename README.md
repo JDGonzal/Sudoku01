@@ -527,3 +527,78 @@ con las asignación `this.innerText = numSelected.id;`.
       document.getElementById('errors').innerText = errors;
     }
 ```
+
+## 06. Iniciando el método `testAuto1()` con la carga de los 3 arreglos
+
+1. Creo una función de nombre `testAuto1()`, por ahora con un 
+`console.log`:
+```js
+const testAuto1 = () => {
+  console.log('testAuto1');
+};
+```
+2. Creo un botón invisible en las coordenadas (4,4), en centro de la
+cuadrícula, en el método `selectTile ()`, cuando no he seleccionado
+número alguno:
+```js
+  if (numSelected) {
+    ...
+  } else if (this.id === '4-4') { testAuto1(); } // Botón invisible
+```
+3. Creamos 3 arreglos para las validaciones automáticas `rows`, 
+`columns`, `squares`, debajo de `solution`:
+```js
+  const rows = []; // Filas del `board`
+  const columns = []; // Columnas del `board`
+  const squares = []; // Cuadros 3x3 del `board`
+```
+4. Creamos un método de nombre `loadingArrays()`, para la carga de los
+arreglos.
+5. dentro del método `testAuto1()`, llamamos el método 
+`loadingArrays()`.
+6. Dentro del método `loadingArrays()` hago un recorrido por la matriz
+`board`, para cargar los tres arreglos:
+```js
+  let i = 0; // Número de cada cuadro 3x3
+  let delta = 0; // Incremento de cada cuadro 3x3
+  // Recorrido para cargar los tres arreglos o matrices
+  for (let x = 0; x < 9; x++) {
+    for (let y = 0; y < 9; y++) {
+      if (x === 0) {
+        columns.push(board[x][y].replace('-', '0')); // Creo celda array
+        rows.push(board[y].replaceAll('-', '0')); // Creo celda array
+      } else {
+        columns[y] = columns[y].concat(board[x][y].replace('-', '0'));
+      }
+      // if ((x===0 || x===3 || x===6) && (y===0 || y===3 || y===6))
+      if ([0, 3, 6].includes(x) && [0, 3, 6].includes(y)) {
+        squares.push(board[x][y].replace('-', '0')); // Creo celda array
+        if ([0, 3, 6].includes(x)) delta = x;
+        // console.log(`x,y: (${x},${y}) square:${squares.length} `);
+      } else {
+        i = Math.floor((x + delta) / 3) + Math.floor((y + delta) / 3);
+        // console.log(`x,y: (${x},${y}) i:${i} Delta:${delta}`);
+        squares[i] = squares[i].concat(board[x][y].replace('-', '0'));
+      }
+    }
+  };
+  console.log('rows: ', rows);
+  console.log('columns: ', columns);
+  console.log('squares:', squares); 
+```
+
+>[!NOTE]  
+> para el ejercicio este sería la lista de valores en cada arreglo:
+>* rows:  ['007491605', '200060309', '000007010', '058600004', '006200187', '003000009', '904070002', '670830000', '810045000']
+>* columns: ['020000968', '000500071', '700863400', '400620080', '960000734', '107000005', '630010000', '001080000', '590479200']
+>* squares: ['007200000', '491060007', '605309010', '058006003', '600200000', '004187009', '904670810', '070830045', '002000000']
+>* Basados en el arreglo de `board`:  
+>`007491605`  
+>`200060309`  
+>`000007010`  
+>`058600004`  
+>`006200187`  
+>`003000009`  
+>`904070002`  
+>`670830000`  
+>`810045000`  
