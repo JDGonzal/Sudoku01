@@ -602,3 +602,215 @@ arreglos.
 >`904070002`  
 >`670830000`  
 >`810045000`  
+
+
+## 07. Creamos el método `solveSudoku()`
+>[!TIP]  
+>Basados en el siguiente video, vamos a probar la solución:  
+>[]()
+[![Sudoku Solver - LeetCode 37 - JavaScript](images/2024-11-27_073851.png "Sudoku Solver - LeetCode 37 - JavaScript")](https://www.youtube.com/watch?v=3nZ45g5yhG0)
+1. Creamos una variable para almacenar lo vacío y un arreglo de 
+valores posibles, debajo del método `testAuto1()`:
+```js
+const EMPTY = '-';
+const possibleNumbers = ['1', '2', '3', '4', '5', '6', '7', '8', '9'];
+```
+2. Creamos la función `solveSudoku`, con el parámetro del `board`,
+por ahora con unos `console.log`:
+```js
+const solveSudoku = (puzzle) => {
+  console.log('puzzle:', puzzle);
+  console.log(EMPTY, possibleNumbers);
+};
+```
+3. En el método `testAuto1()` llamamos la función `solveSudoku()`, 
+enviando de parámetro la variable `board`:  
+`solveSudoku(board);`
+
+>[!NOTE]  
+>Esta sería la salida de los console logs:
+>* `puzzle`:
+>```js  
+>[
+>    "--74916-5",
+>    "2---6-3-9",
+>    "-----7-1-",
+>    "-586----4",
+>    "--62--187",
+>    "--3-----9",
+>    "9-4-7---2",
+>    "67-83----",
+>    "81--45---"
+>]
+>```
+>* `EMPTY`  
+>```js
+> - 
+>```
+>* `possibleNumbers`
+>```js  
+>["1", "2", "3", "4", "5", "6", "7", "8", "9"]
+>```
+
+4. Cambiamos los nombres de algunas variables:
+* `columns` por `cols`.
+* `squares` por `s3x3`.
+5. Creamos una función de nombre `isValid` con cuatro parámetros
+`num`, `row`, `column`, `ind`:
+```js
+// Validamos si un número se puede poner en la casilla vacía
+function isValid (num, row, col, ind) {
+  if (rows[row].includes(num)) return false;
+  if (cols[col].includes(num)) return false;
+  if (s3x3[ind].includes(num)) return false;
+  return true;
+}
+```
+5. Probamos desde el método `solveSudoku()`, llamando la función
+`isValid` para que nos de la respuesta esperada:
+```js
+  console.log(isValid(3, 0, 0, 0)); // true
+  console.log(isValid(8, 0, 0, 0)); // false
+```
+>[!TIP]  
+>Hice unos cambios sacando la obtención del `index` para los cuadrados
+>de 3x3 `s3x3` 
+>1. Defino la variable `delta` debajo de la `const s3x3`.
+>```js
+>let delta = 0; // Para el arreglo `s3x3`
+>```
+>2. Crear un método de nombre `getIndexSquare3x3` con los parámetros
+>`x` y `y`:
+>```js
+>function getIndexSquare3x3 (x, y) {
+>  if ([0, 3, 6].includes(x)) delta = x;
+>  return Math.floor((x + delta) / 3) + Math.floor((y + delta) / 3);
+>}
+>```
+>3. Antes de hacer el recorrido, la variable `delta` se inicializa en 
+>cero `0`.
+>4. Asigno lo obtenido de la función a una constante:
+>```js
+>      const index = getIndexSquare3x3(x, y); // Cargo el Index
+>```
+
+>[!TIP]  
+>El método `loadingArrays()` le asigno un parámetro y con eso es que 
+>vamos a trabajar, para cargar los tres arreglos que se utilizan en la
+>función `isValid()`:
+>* `rows`
+>* `cols`
+>* `s3x3`
+>1. Así queda el método `loadingArrays()`:
+>```js
+>const loadingArrays = (puzzle) => {
+>  delta = 0; // Reinicializo `delta` antes del recorrido
+>  rows = []; // Reinicializo Filas del `board`
+>  cols = []; // Reinicializo Columnas del `board`
+>  s3x3 = []; // Reinicializo Cuadros 3x3 del `board`
+>  // Recorrido para cargar los tres arreglos o matrices
+>  for (let x = 0; x < 9; x++) {
+>    for (let y = 0; y < 9; y++) {
+>      if (x === 0) {
+>        cols.push(puzzle[x][y].replace('-', '0')); // Creo celda array
+>        rows.push(puzzle[y].replaceAll('-', '0')); // Creo celda array
+>        // puzzle[y] = [];
+>      } else {
+>        cols[y] = cols[y].concat(puzzle[x][y].replace('-', '0'));
+>      }
+>      const index = getIndexSquare3x3(x, y); // Cargo el Index
+>      if ([0, 3, 6].includes(x) && [0, 3, 6].includes(y)) {
+>        s3x3[index] = ''; // Inicializo cada cuadrado 3x3
+>      }
+>      s3x3[index] = s3x3[index].concat(puzzle[x][y].replace('-', '0'));
+>    }
+>  };
+>};
+>```
+>2. Cambio en la definición de los arreglos de `const` a `let`:
+>```js
+>let rows = []; // Filas del `board`
+>let cols = []; // Columnas del `board`
+>let s3x3 = []; // Cuadros 3x3 del `board`
+>let delta = 0; // Para el arreglo `s3x3`
+>```
+
+6. Almacenamos las posiciones vacías en el arreglo `emptySpaces`,
+haciendo un recorrido al `board` dentro del método `solveSudoku()`:
+```js
+  const emptySpaces = []; // Posiciones de espacios vacíos
+  delta = 0; // Inicializamos `delta` antes del recorrido
+  for (let x = 0; x < 9; x++) {
+    for (let y = 0; y < 9; y++) {
+      const index = getIndexSquare3x3(x, y);
+      if (puzzle[x][y] === EMPTY) {
+        // Almacenamos objeto
+        emptySpaces.push({ row: x, col: y, ind: index });
+      }
+    }
+  }
+```
+7. Creamos la función `replaceIdx()`, para instertar en un string
+el valor que estoy cambiando, ya sea por el número o por el valor de
+`EMPTY`:
+```js
+function replaceIdx (str, val, idx) {
+  return str.slice(0, idx) + val + str.slice(idx + 1);
+};
+```
+8. Dentro del método `solveSudoku()`, ponemos la función `recurse()`:
+```js
+  // Funcion recursiva para ciclar en si misma
+  function recurse (emptySpaceIndex) {
+    // Se sale si llega al límite de tamaño del arreglo
+    if (emptySpaceIndex >= emptySpaces.length) return true;
+    // cargamos constantes del objeto almacenado
+    const { row, col, ind } = emptySpaces[emptySpaceIndex];
+    // Un ciclo parar recorrer los valores posibles
+    for (let i = 0; i < possibleNumbers.length; i++) {
+      const num = possibleNumbers[i]; // Asignamos a una variable
+      // Verificamos si es válido
+      if (isValid(num, col, row, ind)) {
+        // Cargamos el tablero
+        puzzle[row] = replaceIdx(puzzle[row], num, col);
+        loadingArrays(puzzle); // recargamos los otros arreglos
+        // llamamos esta misma función de `recurse()`
+        if (recurse(emptySpaceIndex + 1)) return true;
+        // Un paso atrás de ser necesario
+        puzzle[row] = replaceIdx(puzzle[row], EMPTY, col);
+        loadingArrays(puzzle); // recargamos los otros arreglos
+      }
+    }
+
+    return false; // Finalizo el proceso de `recurse()`
+  }
+```
+9. llamamos la función `recurse()` para que empiece el proceso,
+al final del método `solveSudoku()`:
+```js
+  recurse(0); // Llamo la función interna `recurse()`
+```
+10. Borramos todos los `console.log`.
+11. En el método `testAuto1()` quedaría así, con el único 
+`console.log`:
+```js
+const testAuto1 = () => {
+  loadingArrays(board);
+  console.log(solveSudoku(puzzle));
+};
+```
+>[!CAUTION]  
+> se corrige la constante `board`, quedando con estos valores:
+>```js
+>const board = [
+>  '--74916-5',
+>  '2---6-3-9',
+>  '-----7-1-',
+>  '-586----4',
+>  '--3----9-',
+>  '--62--187',
+>  '9-4-7---2',
+>  '67-83----',
+>  '81--45---',
+>];
+>```
