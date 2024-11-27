@@ -8,8 +8,8 @@ const board = [
   '2---6-3-9',
   '-----7-1-',
   '-586----4',
+  '--3----9-',
   '--62--187',
-  '--3-----9',
   '9-4-7---2',
   '67-83----',
   '81--45---',
@@ -27,9 +27,10 @@ const solution = [
   '812945763',
 ];
 
-const rows = []; // Filas del `board`
-const columns = []; // Columnas del `board`
-const squares = []; // Cuadros 3x3 del `board`
+let rows = []; // Filas del `board`
+let cols = []; // Columnas del `board`
+let s3x3 = []; // Cuadros 3x3 del `board`
+let delta = 0; // Para el arreglo `s3x3`
 
 // Cuando se muestra la pantalla
 window.onload = () => {
@@ -109,35 +110,95 @@ function selectTile () {
   } else if (this.id === '4-4') { testAuto1(); } // Botón invisible
 };
 
-const loadingArrays = () => {
-  let i = 0; // Número de cada cuadro 3x3
-  let delta = 0; // Incremento de cada cuadro 3x3
+// Localiza el Indice para el arreglo o cuadrado de 3x3
+function getIndexSquare3x3 (x, y) {
+  if ([0, 3, 6].includes(x)) delta = x;
+  return Math.floor((x + delta) / 3) + Math.floor((y + delta) / 3);
+}
+
+// Cargamos los tres arreglos para hacer las validaciones
+const loadingArrays = (puzzle) => {
+  delta = 0; // Reinicializo `delta` antes del recorrido
+  rows = []; // Reinicializo Filas del `board`
+  cols = []; // Reinicializo Columnas del `board`
+  s3x3 = []; // Reinicializo Cuadros 3x3 del `board`
   // Recorrido para cargar los tres arreglos o matrices
   for (let x = 0; x < 9; x++) {
     for (let y = 0; y < 9; y++) {
       if (x === 0) {
-        columns.push(board[x][y].replace('-', '0')); // Creo celda array
-        rows.push(board[y].replaceAll('-', '0')); // Creo celda array
+        cols.push(puzzle[x][y].replace('-', '0')); // Creo celda array
+        rows.push(puzzle[y].replaceAll('-', '0')); // Creo celda array
+        // puzzle[y] = [];
       } else {
-        columns[y] = columns[y].concat(board[x][y].replace('-', '0'));
+        cols[y] = cols[y].concat(puzzle[x][y].replace('-', '0'));
       }
-      // if ((x===0 || x===3 || x===6) && (y===0 || y===3 || y===6))
+      const index = getIndexSquare3x3(x, y); // Cargo el Index
       if ([0, 3, 6].includes(x) && [0, 3, 6].includes(y)) {
-        squares.push(board[x][y].replace('-', '0')); // Creo celda array
-        if ([0, 3, 6].includes(x)) delta = x;
-        // console.log(`x,y: (${x},${y}) square:${squares.length} `);
-      } else {
-        i = Math.floor((x + delta) / 3) + Math.floor((y + delta) / 3);
-        // console.log(`x,y: (${x},${y}) i:${i} Delta:${delta}`);
-        squares[i] = squares[i].concat(board[x][y].replace('-', '0'));
+        s3x3[index] = ''; // Inicializo cada cuadrado 3x3
       }
+      s3x3[index] = s3x3[index].concat(puzzle[x][y].replace('-', '0'));
     }
   };
-  console.log('rows: ', rows);
-  console.log('columns: ', columns);
-  console.log('squares:', squares);
 };
 
 const testAuto1 = () => {
-  loadingArrays();
+  loadingArrays(board);
+  console.log(solveSudoku(board));
 };
+
+const EMPTY = '-';
+const possibleNumbers = ['1', '2', '3', '4', '5', '6', '7', '8', '9'];
+
+// retorno el string con un caracter cambiado en una posición
+function replaceIdx (str, val, idx) {
+  return str.slice(0, idx) + val + str.slice(idx + 1);
+};
+
+const solveSudoku = (puzzle) => {
+  const emptySpaces = []; // Posiciones de espacios vacíos
+  delta = 0; // Inicializamos `delta` antes del recorrido
+  for (let x = 0; x < 9; x++) {
+    for (let y = 0; y < 9; y++) {
+      const index = getIndexSquare3x3(x, y);
+      if (puzzle[x][y] === EMPTY) {
+        // Almacenamos objeto
+        emptySpaces.push({ row: x, col: y, ind: index });
+      }
+    }
+  }
+
+  // Funcion recursiva para ciclar en si misma
+  function recurse (emptySpaceIndex) {
+    // Se sale si llega al límite de tamaño del arreglo
+    if (emptySpaceIndex >= emptySpaces.length) return true;
+    // cargamos constantes del objeto almacenado
+    const { row, col, ind } = emptySpaces[emptySpaceIndex];
+    // Un ciclo parar recorrer los valores posibles
+    for (let i = 0; i < possibleNumbers.length; i++) {
+      const num = possibleNumbers[i]; // Asignamos a una variable
+      // Verificamos si es válido
+      if (isValid(num, col, row, ind)) {
+        // Cargamos el tablero
+        puzzle[row] = replaceIdx(puzzle[row], num, col);
+        loadingArrays(puzzle); // recargamos los otros arreglos
+        // llamamos esta misma función de `recurse()`
+        if (recurse(emptySpaceIndex + 1)) return true;
+        // Un paso atrás de ser necesario
+        puzzle[row] = replaceIdx(puzzle[row], EMPTY, col);
+        loadingArrays(puzzle); // recargamos los otros arreglos
+      }
+    }
+
+    return false; // Finalizo el proceso de `recurse()`
+  }
+  recurse(0); // Llamo la función interna `recurse()`
+  return puzzle; // devuelvo el valor del `puzzle`
+};
+
+// Validamos si un número se puede poner en la casilla vacía
+function isValid (num, col, row, ind) {
+  if (rows[row].includes(num)) return false;
+  if (cols[col].includes(num)) return false;
+  if (s3x3[ind].includes(num)) return false;
+  return true;
+}
