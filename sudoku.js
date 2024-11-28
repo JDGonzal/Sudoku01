@@ -3,28 +3,23 @@ let numSelected = null;
 
 let errors = 0;
 
+const WHICH = 2;
 const board = [
-  '--74916-5',
-  '2---6-3-9',
-  '-----7-1-',
-  '-586----4',
-  '--3----9-',
-  '--62--187',
-  '9-4-7---2',
-  '67-83----',
-  '81--45---',
+  ['--74916-5', '2---6-3-9', '-----7-1-', '-586----4', '--3----9-',
+    '--62--187', '9-4-7---2', '67-83----', '81--45---'],
+  ['8--4--63-', '-12-8----', '-4-1-----', '------5-7', '-7-9-2-1-',
+    '9-4------', '-----1-5-', '----4-37-', '-35--8--2'],
+  ['-93-6---4', '------7--', '--8----26', '---69----', '64-----73',
+    '----13---', '32----8--', '--7------', '9---4-16-'],
 ];
 
 const solution = [
-  '387491625',
-  '241568379',
-  '569327418',
-  '758619234',
-  '123784596',
-  '496253187',
-  '934176852',
-  '675832941',
-  '812945763',
+  ['387491625', '241568379', '569327418', '758619234', '123784596',
+    '496253187', '934176852', '675832941', '812945763'],
+  ['897425631', '312689745', '546173928', '123864597', '678952413',
+    '954317286', '769231854', '281546379', '435798162'],
+  ['293768514', '564231798', '178954326', '832697451', '641825973',
+    '759413682', '326179845', '417586239', '985342167'],
 ];
 
 let rows = []; // Filas del `board`
@@ -58,8 +53,8 @@ const setGame = () => {
       const tileList = document.createElement('div');
       tileList.id = x.toString() + '-' + y.toString(); // definimos `id`
       // Poblamos (Polulate) la cuadrícula con `board`
-      if (board[x][y] !== '-') {
-        tileList.innerText = board[x][y];
+      if (board[WHICH][x][y] !== '-') {
+        tileList.innerText = board[WHICH][x][y];
         tileList.classList.add('tile-start');
       }
       // para poner las `.horizontal-line` y las `.vertical-line`
@@ -100,7 +95,7 @@ function selectTile () {
     const y = parseInt(coords[1]);
 
     // Si es igual a la solución lo asigno a la cuadrícula
-    if (solution[x][y] === numSelected.id) {
+    if (solution[WHICH][x][y] === numSelected.id) {
       this.innerText = numSelected.id;
     } else {
       errors += 1; // Incremento los errores.
@@ -142,8 +137,8 @@ const loadingArrays = (puzzle) => {
 };
 
 const testAuto1 = () => {
-  loadingArrays(board);
-  console.log(solveSudoku(board));
+  loadingArrays(board[WHICH]);
+  showSolution(solveSudoku(board[WHICH]));
 };
 
 const EMPTY = '-';
@@ -192,6 +187,7 @@ const solveSudoku = (puzzle) => {
     return false; // Finalizo el proceso de `recurse()`
   }
   recurse(0); // Llamo la función interna `recurse()`
+  console.table(puzzle);
   return puzzle; // devuelvo el valor del `puzzle`
 };
 
@@ -202,3 +198,16 @@ function isValid (num, col, row, ind) {
   if (s3x3[ind].includes(num)) return false;
   return true;
 }
+
+// Muestro la solución en pantalla
+const showSolution = (puzzle) => {
+  // Recorrido de la matriz puzzle y lo voy poniendo en pantalla
+  for (let x = 0; x < 9; x++) {
+    for (let y = 0; y < 9; y++) {
+      const num = document.getElementById(x + '-' + y).innerText;
+      if (num === '') { // Si está vacío pongo el número
+        document.getElementById(x + '-' + y).innerText = puzzle[x][y];
+      }
+    }
+  };
+};
