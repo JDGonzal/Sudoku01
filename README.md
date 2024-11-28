@@ -871,3 +871,140 @@ const solution = [
 `font-weight: bold;`.
 10. En **`sudoku.js`**, añadí `console.table(puzzle);` antes del
 `return puzzle;` en la función `solveSudoku ()`.
+
+## 09. Mejoras en el código
+1. El tiempo de respuesta de el método `isValid()` puede tomar mucho
+tiempo, y esto es debido a la recarga constante de los arreglos con
+`loadingArrays()`, mejoraremos `isValid()`, para luego dejar a un lado
+`loadingArrays()` y los tres arreglos allí utilizados:
+```js
+function isValid (num, col, row, board) {
+  // Check col, row, 3x3 matrix
+  for (let i = 0; i < board.length; i++) {
+    // Verifico en filas `row` y en las columnas `col`
+    if (board[row][i] === num || board[i][col] === num) {
+      return false;
+    }
+    // Check 3x3
+    const startRow = Math.floor(row / 3) * 3;
+    const startCol = Math.floor(col / 3) * 3;
+    for (let y = startRow; y < startRow + 3; y++) {
+      for (let x = startCol; x < startCol + 3; x++) {
+        if (board[x][y === num]) return false;
+      }
+    }
+  }
+  return true;
+}
+```
+2. Borramos las variables:
+* `let rows = []`
+* `let cols = []`
+* `let s3x3 = []`
+* `let delta = 0`
+3. Borramos las funciones :
+* `getIndexSquare3x3 (x, y)` 
+* `loadingArrays (puzzle)`
+4. Se borran donde sean llamadas tanto las funciones como las variables.
+
+>[!TIP]  
+>Hay una disminución de tiempo a la mitad con respecto al proceso 
+>anterior.
+
+5. Creo dos archivos **`board.js`** y **`solution.js`**, en la
+raíz del proyecto, con el siguiente código:
+* **`board.js`**
+```js
+const board = [
+  ['--74916-5', '2---6-3-9', '-----7-1-', '-586----4', '--3----9-',
+    '--62--187', '9-4-7---2', '67-83----', '81--45---'],
+  ['8--4--63-', '-12-8----', '-4-1-----', '------5-7', '-7-9-2-1-',
+    '9-4------', '-----1-5-', '----4-37-', '-35--8--2'],
+  ['-93-6---4', '------7--', '--8----26', '---69----', '64-----73',
+    '----13---', '32----8--', '--7------', '9---4-16-'],
+];
+export default function getBoard (WHICH) {
+  return board[WHICH];
+}
+```
+* **`solution.js`**
+```js
+const solution = [
+  ['387491625', '241568379', '569327418', '758619234', '123784596',
+    '496253187', '934176852', '675832941', '812945763'],
+  ['897425631', '312689745', '546173928', '123864597', '678952413',
+    '954317286', '769231854', '281546379', '435798162'],
+  ['293768514', '564231798', '178954326', '832697451', '641825973',
+    '759413682', '326179845', '417586239', '985342167'],
+];
+
+export default function getSolution (WHICH) {
+  return solution[WHICH];
+}
+```
+6. En el archivo **`sudoku.js`**, importamos los dos métodos:
+```js
+import getBoard from './board.js';
+import getSolution from './solution.js';
+```
+7. Cambiamos las constantes de `board` y `solution` a variables:
+```js
+let board = [];
+let solution = [];
+```
+8. En la función `setGame()` de primero cargamos las dos nuevas 
+variables:
+```js
+  // Cargamos el `board`
+  board = getBoard(WHICH);
+  // Cargamos el `solution`
+  solution = getSolution(WHICH);
+```
+9. Donde diga `board[WHICH][x][y]`, lo cambiamos a `board[x][y]`.
+10. Donde diga `solution[WHICH][x][y]`, lo cambiamos a `solution[x][y]`.
+
+>[!IMPORTANT]  
+>Siguiendo la lógica de los planos cartesianos, si te desplazas
+>en el eje `x`, te mueves sobre las `col` (columnas) y si te 
+>desplazas en el eje `y`, te mueves sobre las `row` (filas), entoces
+>cambíe mucho del código para hacer los equivalentes a estos, los que
+>considero los valores correctos:
+>1. En la función `solveSudoku()` al cargar el arreglo `emptySpaces`:
+>```js
+>        emptySpaces.push({ col: x, row: y });
+>```
+>2. En la función `recurse`, al asignar las constantes del objeto:
+>```js
+>    const { col, row } = emptySpaces[emptySpaceIndex];
+>```
+>3. En la función `recurse`, cuando cargamos el tablero y hacemos un 
+>paso atrás:
+>```js
+>        puzzle[col] = replaceIdx(puzzle[col], num, row);
+>...
+>        puzzle[col] = replaceIdx(puzzle[col], EMPTY, row);
+>```
+>4. al llamar la función `isValid()`:
+>```js
+>isValid(num, col, row, puzzle)
+>```
+>5. La función `isValid()`, queda así:
+>```js
+>function isValid (num, col, row, board) {
+>  // Check col, row, 3x3 matrix
+>  for (let i = 0; i < board.length; i++) {
+>    // Verifico en filas `row` y en las columnas `col`
+>    if (board[col][i] === num || board[i][row] === num) return false;
+>    // Check 3x3
+>    const startCol = Math.floor(col / 3) * 3;
+>    const startRow = Math.floor(row / 3) * 3;
+>    for (let x = startCol; x < startCol + 3; x++) {
+>      for (let y = startRow; y < startRow + 3; y++) {
+>        if (board[x][y] === num) return false;
+>      }
+>    }
+>  }
+>  return true;
+>}
+>```
+  
