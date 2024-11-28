@@ -814,3 +814,60 @@ const testAuto1 = () => {
 >  '81--45---',
 >];
 >```
+
+## 08. Mostrar la solución y poner otros `board`
+1. Creamos el método `showSolution()` con el parámetro del `puzzle`:
+```js
+const showSolution = (puzzle) => {
+  // Recorrido de la matriz puzzle y lo voy poniendo en pantalla
+  for (let x = 0; x < 9; x++) {
+    for (let y = 0; y < 9; y++) {
+      const num = document.getElementById(x + '-' + y).innerText;
+      if (num === '') { // Si está vacío pongo el número
+        document.getElementById(x + '-' + y).innerText = puzzle[x][y];
+      }
+    }
+  };
+};
+```
+3. En el método `testAuto1()`, llamo el `showSolution()`, y como 
+parámetro la respuesta obtenida de `solveSudoku()`:
+```js
+const testAuto1 = () => {
+  loadingArrays(board);
+  showSolution(solveSudoku(board));
+};
+```
+4. Creo una constante para seleccionar cual `board` y `solution` voy a
+jugar:
+```js
+const WHICH = 2;
+```
+5. Creo mas `board` y `solution`:
+```js
+const board = [
+  ['--74916-5', '2---6-3-9', '-----7-1-', '-586----4', '--3----9-',
+    '--62--187', '9-4-7---2', '67-83----', '81--45---'],
+  ['8--4--63-', '-12-8----', '-4-1-----', '------5-7', '-7-9-2-1-',
+    '9-4------', '-----1-5-', '----4-37-', '-35--8--2'],
+  ['-93-6---4', '------7--', '--8----26', '---69----', '64-----73',
+    '----13---', '32----8--', '--7------', '9---4-16-'],
+];
+
+const solution = [
+  ['387491625', '241568379', '569327418', '758619234', '123784596',
+    '496253187', '934176852', '675832941', '812945763'],
+  ['897425631', '312689745', '546173928', '123864597', '678952413',
+    '954317286', '769231854', '281546379', '435798162'],
+  ['293768514', '564231798', '178954326', '832697451', '641825973',
+    '759413682', '326179845', '417586239', '985342167'],
+];
+```
+6. Donde esté `board[x][y]`, lo cambio por `board[WHICH][x][y]`.
+7. Donde esté `solution[x][y]`, lo cambio por `solution[WHICH][x][y]`.
+8. También modifique en **`sudoku.css`**, para `.tile` el
+`font-weight: normal;`
+9. En **`sudoku.css`**, añadí para `.tile-start` lo siguiente:  
+`font-weight: bold;`.
+10. En **`sudoku.js`**, añadí `console.table(puzzle);` antes del
+`return puzzle;` en la función `solveSudoku ()`.
