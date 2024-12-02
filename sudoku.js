@@ -6,7 +6,7 @@ let numSelected = null;
 
 let errors = 0;
 
-const WHICH = 2;
+const WHICH = 3;
 
 let board = [];
 let solution = [];
