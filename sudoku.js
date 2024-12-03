@@ -1,8 +1,13 @@
+/* eslint-disable camelcase */
 import getBoard from './board.js';
 import getSolution from './solution.js';
 
 let numSelected = null;
-// const tileSelected = null;
+let tileSelected = null;
+let stepSelected = null;
+let instructionDone = false;
+let numExample = '';
+let posExample = '';
 
 let errors = 0;
 
@@ -10,6 +15,17 @@ const WHICH = 3;
 
 let board = [];
 let solution = [];
+
+/*
+  Llene los espacios con números del 1 al 9, sin que se repitan
+  al leer las líneas, tanto en sentido vertical como horizontal y
+  tampoco en cada caja 3x3.
+*/
+const instructions = [
+  '1: Selecciona un número de la parte inferior.',
+  '2: Dale click en una casilla vacía de arriba.',
+  '3: Llenar los espacios con los números del 1 al 9.',
+  '4: No repetir en Horizontal o Vertical o en los cuadros 3x3.'];
 
 // Cuando se muestra la pantalla
 window.onload = () => {
@@ -31,6 +47,7 @@ const setGame = () => {
     // Añadimos la _escucha_ el evento `click`
     numberList.addEventListener('click', selectNumber);
     numberList.classList.add('number'); // le asignamos la clase
+    numberList.addEventListener('mouseover', removeBlink);
     // Ponemos en pantalla como hijo de `id = "digits"`
     document.getElementById('digits').appendChild(numberList);
   }
@@ -54,47 +71,128 @@ const setGame = () => {
       }
       // Añadimos la _escucha_ el evento `click`
       tileList.addEventListener('click', selectTile);
+      tileList.addEventListener('mouseover', removeBlink);
       tileList.classList.add('tile'); // le asignamos la clase
       // Ponemos en pantalla como hijo de `id = "board"`
       document.getElementById('board').appendChild(tileList);
     }
   }
+  // Recorrido por `instructions`
+  for (let i = 0; i < instructions.length; i++) {
+    const steps = document.createElement('div');
+    steps.id = 'step-' + (i + 1).toString(); // definimos `id`
+    steps.innerText = instructions[i];
+    steps.classList.add('steps'); // le asignamos la clase
+    // Añadimos la _escucha_ el evento `mouseover`
+    steps.addEventListener('mouseover', showStep);
+    document.getElementById('instructions').appendChild(steps);
+  }
 };
 
+function removeBlink () {
+  if (numSelected !== null && instructionDone) {
+    numSelected.classList.remove('blink-me');
+  }
+  if (tileSelected !== null && instructionDone) {
+    tileSelected.classList.remove('blink-me');
+  }
+}
 // Va a ser llamado con el `click` de los q tienen clase `number`
 function selectNumber () {
-  if (numSelected != null) {
+  if (numSelected !== null) {
     numSelected.classList.remove('number-selected');
+    removeBlink();
   }
   numSelected = this; // asigno el valor de `numberList`
   numSelected.classList.add('number-selected'); // sudoku.css
+  removeBlink();
+
+  if (instructionDone) return;
+  if (numSelected.id === numExample) {
+    for (let x = 0; x < 9; x++) {
+      if (board[0][x] === '-' && numExample === solution[0][x]) {
+        posExample = '0-' + x;
+        tileSelected = document.getElementById(posExample);
+        tileSelected.classList.add('blink-me');
+        break;
+      }
+    }
+  }
 };
 
 // Va a ser llamado con el `click` de los q tienen clase `tile`
 function selectTile () {
   if (numSelected) {
-    if (this.innerText !== '') return; // Si tiene datos no hace nada
+    tileSelected = this;
+    removeBlink();
 
+    // Si tiene datos no hace nada
+    if (tileSelected.innerText !== '') return;
     // Establecemos el comparativo con la `solution`
     // Se crea un arreglo con los valores de `x` y `y``
-    const coords = this.id.split('-'); // Crea un arreglo
+    const coords = tileSelected.id.split('-'); // Crea un arreglo
     // Llevo a dos variable en forma de Enteros
     const x = parseInt(coords[0]);
     const y = parseInt(coords[1]);
 
     // Si es igual a la solución lo asigno a la cuadrícula
     if (solution[x][y] === numSelected.id) {
-      this.innerText = numSelected.id;
+      tileSelected.innerText = numSelected.id;
+
+      if (tileSelected.innerText === numExample) {
+        instructionDone = true;
+      }
     } else {
       errors += 1; // Incremento los errores.
       // Lo muestro en pantalla el valor incrementado
-      document.getElementById('errors').innerText = errors;
+      document.getElementById('errors').innerText =
+        'Errores: ' + errors;
     }
-  } else if (this.id === '4-4') {
+  } else if (tileSelected.id === '4-4') {
     console.time('testAuto1');
     testAuto1();
   } // Botón invisible
 };
+
+function showStep () {
+  removeBlink();
+  if (instructionDone) return;
+  stepSelected = this;
+  const i = Number(stepSelected.id.slice(-1));
+  switch (stepSelected.id) {
+    case 'step-1':
+      // recorre a `board` y a `solution`
+      for (let y = 0; y < 9; y++) {
+        for (let x = 0; x < 9; x++) {
+          if (board[y][x] === '-' && numExample === '') {
+            numExample = solution[y][x];
+            break;
+          }
+        }
+        if (numExample !== '') break;
+      }
+      numSelected = document.getElementById(numExample);
+      if (!numSelected.classList.contains('number-selected')) {
+        stepSelected.innerText = instructions[i - 1] +
+          ' Ejemplo el ' + numExample + '.';
+        numSelected.classList.add('blink-me');
+      }
+      break;
+    case 'step-2':
+      for (let x = 0; x < 9; x++) {
+        if (board[0][x] === '-' && numExample === solution[0][x]) {
+          posExample = '0-' + x;
+          tileSelected = document.getElementById(posExample);
+          tileSelected.classList.add('blink-me');
+          break;
+        }
+      }
+      break;
+    default:
+      console.log(0);
+      break;
+  }
+}
 
 const testAuto1 = () => {
   showSolution(solveSudoku(board));
