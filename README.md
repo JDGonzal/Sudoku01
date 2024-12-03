@@ -1007,4 +1007,255 @@ variables:
 >  return true;
 >}
 >```
-  
+
+## 10. Publicar el archivo en github e instrucciones
+1. Lo primero es cambiar el nombre del archivo **`soudoku.html`**
+por **`index.html`**.
+2. Subimos los cambios al repositiorio.
+3. Vamos el sitio de nuestro repositorio en `github` y seleccionamos
+arriba a las derecha `Settings`
+4. Vamos a la izquierda a buscar `Pages`.
+5. En esta opción "`Build and deployment`", para el `Source`, lo
+dejamos en `Deploy from a branch`.
+6. De la lista seleccionamos el `main` y presionamos el botón [`Save`].
+7. Esperamos de 5 a 10 minutos, refrescando la página, hasta que 
+aparece arriba el link que vamos a ver, en mi caso así quedó el sitio:
+[jdgonzal.github.io/Sudoku01/](https://jdgonzal.github.io/Sudoku01/)
+
+>[!TIP]  
+>Aquí está el video con las instrucciones por si hay dudas:  
+>[Publicar web gratis con Github](https://www.youtube.com/watch?v=8IdBAysf-U4 "2024-04-10")
+
+8. Creamos en el **`index.html`**, debajo de 
+`<div id = "digits"></div>` otros elementos:
+```html
+  <br>
+  <h3>Instrucciones</h3>
+  <div id = "instructions"></div>
+```
+9. Añadimos en el archivo **`sudoku.css`**, lo relacionado con el
+`id = "instructions"`:
+```css
+#instructions {
+  width: 450px;
+  height: 150px;
+  background-color: lightyellow;
+
+  margin: 0 auto;
+  display: flex;
+  flex-wrap: wrap;   
+}
+```
+10. Creamos en **`sudoku.js`** el arreglo `instructions`, con un 
+texto para mostar en pantalla:
+```js
+const instructions = [
+  'Step 1: xxxxxxxxxxx',
+  'Step 2: ooooooooooo',
+  'Step 3: iiiiiiiiiii',
+  'Step 4: -*-*-*-*-*-'];
+```
+11. Al final del método `setGame()` hacemos un recorrido por el 
+arreglo `instructions`, para ponerlo en pantalla:
+```js
+  for (let i = 0; i < instructions.length; i++) {
+    const steps = document.createElement('div');
+    steps.id = 'step-' + (i + 1).toString(); // definimos `id`
+    steps.innerText = instructions[i];
+    steps.classList.add('steps'); // le asignamos la clase
+    document.getElementById('instructions').appendChild(steps);
+  }
+```
+12. En el archivo **`sudoku.css`** , añadimos la clase `steps`:
+```css
+.steps {
+  width: 440px;
+  height: 24px;
+  border: none;
+  margin: auto;
+  cursor: pointer;
+
+  /* Text */
+  font-size: 16px;
+  font-weight: normal;
+  display: flex;
+  justify-content: left;
+  align-items: left center;
+```
+13. Ajustamos los `h1`, `h2`, etc. en el archivo **`sudoku.css`**:
+```css
+h1, h2, h3, h4, h5, h6 {
+  margin-block-start: 0.2em;
+  margin-block-end: 0.2em;
+}
+```
+
+>[!NOTE]  
+>Así se ve ya la imagen en pantalla:  
+>![Instrucciones iniciales](images/2024-12-03_091652.png "Instrucciones iniciales")
+
+14. Ahora si corregimos en el archivo **`sudoku.js`** el arreglo
+`instructions`:
+```js
+const instructions = [
+  '1: Selecciona un número de la parte inferior.',
+  '2: Dale click en una casilla vacía de arriba.',
+  '3: Llenar los espacios con los números del 1 al 9.',
+  '4: No repetir en Horizontal o Vertical o en los cuadros 3x3.'];
+```
+15. Creamos algunas variables que vamos a usar en el proceso:
+```js
+let tileSelected = null;
+let stepSelected = null;
+let instructionDone = false;
+let numExample = '';
+let posExample = '';
+```
+16. Cuando hacemos el recorrido del arreglo `instructions`, añadimos
+unas escuchas para el evento `onmouseover`:
+```js
+    steps.addEventListener('mouseover', showStep);
+```
+17. Creamos la función `showStep`:
+```js
+function showStep () {
+  if (instructionDone) return;
+  stepSelected = this;
+  const i = Number(stepSelected.id.slice(-1));
+  switch (stepSelected.id) {
+    case 'step-1':
+      // recorre a `board` y a `solution`
+      for (let y = 0; y < 9; y++) {
+        for (let x = 0; x < 9; x++) {
+          if (board[y][x] === '-' && numExample === '') {
+            numExample = solution[y][x];
+            break;
+          }
+        }
+        if (numExample !== '') break;
+      }
+      numSelected = document.getElementById(numExample);
+      if (!numSelected.classList.contains('number-selected')) {
+        stepSelected.innerText = instructions[i - 1] +
+          ' Ejemplo el ' + numExample + '.';
+        numSelected.classList.add('blink-me');
+      }
+      break;
+    case 'step-2':
+      for (let x = 0; x < 9; x++) {
+        if (board[0][x] === '-' && numExample === solution[0][x]) {
+          posExample = '0-' + x;
+          tileSelected = document.getElementById(posExample);
+          tileSelected.classList.add('blink-me');
+          break;
+        }
+      }
+      break;
+    default:
+      console.log(0);
+      break;
+  }
+}
+```
+18. En el archivo **`sudoku.css`** ponemos lo relacionado con la 
+clase `blink-me`:
+```css
+.blink-me {
+  animation: blinker 1s infinite;
+  cursor: pointer;
+}
+
+@keyframes blinker {
+  form { background-color: yellow;}
+  50% { background-color: yellowgreen}
+  to { background-color: green; }
+}
+```
+19. En **`index.html`** agrego un complemento abajo de las
+`Instrucciones`:
+```html
+  <h3>Instrucciones</h3>
+  <div id = "complement">(Poner el puntero del mouse encima de cada paso, para mayor claridad)</div>
+  <div id = "instructions"></div>
+```
+20. En el archivo **`sudoku.css`** ponemos lo relacionado con el 
+id `complement`:
+```css
+#complement {
+  /* Text */
+  font-size: 12px;
+  font-weight: lighter;
+  color: gray;
+}
+```
+21. Ponemos en **`sudoku.js`**, un método de nombre `removeBlink()`:
+```js
+function removeBlink () {
+  if (numSelected !== null && instructionDone) {
+    numSelected.classList.remove('blink-me');
+  }
+  if (tileSelected !== null && instructionDone) {
+    tileSelected.classList.remove('blink-me');
+  }
+}
+```
+22. Añadimos escuchas de `mouseover` para `tileList`:
+```js
+      tileList.addEventListener('mouseover', removeBlink);
+```
+23. Añadimos escuchas de `mouseover` para `numberList`:
+```js
+    numberList.addEventListener('mouseover', removeBlink);
+```
+24. En la función `selectNumber()` se añade el llamado a
+`removeBlink()`;
+```js
+  if (numSelected !== null) {
+    numSelected.classList.remove('number-selected');
+    removeBlink();
+  }
+  numSelected = this; // asigno el valor de `numberList`
+  numSelected.classList.add('number-selected'); // sudoku.css
+  removeBlink();
+```
+25. En la función `selectTile()`, asociamos el `this` a 
+`tileSelected`, se sigue usando `tileSelected` y se llama el 
+`removeBlink()` en el proceso:
+```js
+    tileSelected = this;
+    removeBlink();
+```
+26. Justo cuando empieza la función `showStep()` se llama a 
+`removeBlink()`.
+27. Así queda en definitiva en el archivo **`sudoku.css`**
+la clase `steps`:
+```css
+.steps {
+  width: 440px;
+  height: 24px;
+  border: none;
+  margin: auto;
+  cursor: pointer;
+
+  /* Text */
+  font-size: 16px;
+  font-weight: normal;
+  display: flex;
+  justify-content: left;
+  align-items: left center;
+}
+```
+28. Mejoramos el texto en **`index.html`** de los errores:
+```html
+  <h2 id="errors">Errores: 0</h2>  
+```
+29. Por ende en **`sudoku.js`**, al momento de acumular los
+errores también se hizo el cambio:
+```js
+      document.getElementById('errors').innerText =
+        'Errores: ' + errors;
+```
+ 
+ >[!NOTE]  
+>Así se ve la imagen en pantalla con los últimos cambios:  
+>![Instrucciones completas](images/2024-12-03_172948.png "Instrucciones completas")

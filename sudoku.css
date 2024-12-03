@@ -3,8 +3,14 @@ body {
   text-align: center;
 }
 
-hr {
+h1, h2, h3, h4, h5, h6 {
+  margin-block-start: 0.2em;
+  margin-block-end: 0.2em;
+}
+
+br {
   width: 500px;
+  height: 20px;
 }
 
 #errors {
@@ -71,4 +77,47 @@ hr {
 
 .vertical-line {
   border-right: 1px solid black;
+}
+
+#instructions {
+  width: 450px;
+  height: 150px;
+  background-color: lightyellow;
+
+  margin: 0 auto;
+  display: flex;
+  flex-wrap: wrap;  
+}
+
+#complement {
+  /* Text */
+  font-size: 12px;
+  font-weight: lighter;
+  color: gray;
+}
+
+.steps {
+  width: 440px;
+  height: 24px;
+  border: none;
+  margin: auto;
+  cursor: pointer;
+
+  /* Text */
+  font-size: 16px;
+  font-weight: normal;
+  display: flex;
+  justify-content: left;
+  align-items: left center;
+}
+
+.blink-me {
+  animation: blinker 1s infinite;
+  cursor: pointer;
+}
+
+@keyframes blinker {
+  form { background-color: yellow;}
+  50% { background-color: yellowgreen}
+  to { background-color: green; }
 }
