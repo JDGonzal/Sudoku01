@@ -11,7 +11,7 @@ let posExample = '';
 
 let errors = 0;
 
-const WHICH = 3;
+const WHICH = 4;
 
 let board = [];
 let solution = [];
@@ -122,8 +122,8 @@ function selectNumber () {
 
 // Va a ser llamado con el `click` de los q tienen clase `tile`
 function selectTile () {
+  tileSelected = this;
   if (numSelected) {
-    tileSelected = this;
     removeBlink();
 
     // Si tiene datos no hace nada
@@ -195,7 +195,8 @@ function showStep () {
 }
 
 const testAuto1 = () => {
-  showSolution(solveSudoku(board));
+  const puzzle = solveSudoku(board);
+  showSolution(puzzle);
   console.timeLog('testAuto1');
 };
 
