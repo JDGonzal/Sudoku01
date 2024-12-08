@@ -1259,3 +1259,7 @@ errores también se hizo el cambio:
  >[!NOTE]  
 >Así se ve la imagen en pantalla con los últimos cambios:  
 >![Instrucciones completas](images/2024-12-03_172948.png "Instrucciones completas")
+
+>[!WARNING]
+>Se corrige la asignación de la variable `tileSelected` en la
+>función `selectTile()` del archivo **`sudoku.js`**.
