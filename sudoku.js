@@ -11,7 +11,7 @@ let posExample = '';
 
 let errors = 0;
 
-const WHICH = 4;
+const WHICH = 5;
 
 let board = [];
 let solution = [];
