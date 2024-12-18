@@ -18,21 +18,16 @@ br {
 }
 
 #board {
-  width: 450px;
-  height: 450px;
-
   margin: 0 auto;
   display: flex;
   flex-wrap: wrap;
 }
 
 .tile {
-  width: 48px;
-  height: 48px;
   border: 1px solid lightgray;
 
   /* Text */
-  font-size: 20px;
+
   font-weight: normal;
   display: flex;
   justify-content: center;
@@ -40,8 +35,6 @@ br {
 }
 
 #digits {
-  width: 450px;
-  height: 50px;
 
   margin: 0 auto;
   display: flex;
@@ -49,13 +42,12 @@ br {
 }
 
 .number {
-  width: 44px;
-  height: 44px;
+
   border: 1px solid black;
   margin: 2px;
 
   /* Text */
-  font-size: 20px;
+
   font-weight: bold;
   display: flex;
   justify-content: center;
@@ -80,8 +72,7 @@ br {
 }
 
 #instructions {
-  width: 450px;
-  height: 150px;
+
   background-color: lightyellow;
 
   margin: 0 auto;
@@ -91,20 +82,19 @@ br {
 
 #complement {
   /* Text */
-  font-size: 12px;
+
   font-weight: lighter;
   color: gray;
 }
 
 .steps {
-  width: 440px;
-  height: 24px;
+
   border: none;
   margin: auto;
   cursor: pointer;
 
   /* Text */
-  font-size: 16px;
+
   font-weight: normal;
   display: flex;
   justify-content: left;
@@ -120,4 +110,68 @@ br {
   form { background-color: yellow;}
   50% { background-color: yellowgreen}
   to { background-color: green; }
+}
+@media screen and (max-width: 450px){
+  #board {
+    width: 360px;
+    height: 360px;
+  }
+  .tile {
+    width: 38px;
+    height: 38px;
+    font-size: 16px;
+  }
+  #digits {
+    width: 360px;
+    height: 40px;
+  }
+  .number {
+    width: 34px;
+    height: 34px;
+    font-size: 16px;
+  }
+  #instructions {
+    width: 360px;
+    height: 120px;
+  }
+  .steps {
+    width: 360px;
+    height: 18px;
+    font-size: 13px;
+  }
+  #complement {
+    font-size: 10px;
+  }
+}
+@media screen and (min-width: 451px){
+  #board {
+    width: 450px;
+    height: 450px;
+  }
+  .tile {
+    width: 48px;
+    height: 48px;
+    font-size: 20px;
+  }
+  #digits {
+    width: 450px;
+    height: 50px;
+  }
+  .number {
+    width: 44px;
+    height: 44px;
+    font-size: 20px;
+  }
+  #instructions {
+    width: 450px;
+    height: 150px;
+  }
+  .steps {
+    width: 440px;
+    height: 24px;
+    font-size: 16px;
+  }
+  #complement {
+    font-size: 12px;
+  }
 }
