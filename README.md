@@ -1263,3 +1263,96 @@ errores también se hizo el cambio:
 >[!WARNING]
 >Se corrige la asignación de la variable `tileSelected` en la
 >función `selectTile()` del archivo **`sudoku.js`**.
+
+## 11. Mejoras en **`sudoku.css`** usando el `@media` query
+
+1. En el archivo **`sudoku.css`** definimos tamaños menores o
+iguales a `450px`:
+```css
+@media screen and (max-width: 450px){
+  #board {
+    width: 360px;
+    height: 360px;
+  }
+  .tile {
+    width: 38px;
+    height: 38px;
+    font-size: 16px;
+  }
+  #digits {
+    width: 360px;
+    height: 40px;
+  }
+  .number {
+    width: 34px;
+    height: 34px;
+    font-size: 16px;
+  }
+  #instructions {
+    width: 360px;
+    height: 120px;
+  }
+  .steps {
+    width: 360px;
+    height: 18px;
+    font-size: 13px;
+  }
+  #complement {
+    font-size: 10px;
+  }
+}
+```
+2. En el archivo **`sudoku.css`** definimos tamaños mayores o
+iguales a `451px`
+```css
+@media screen and (min-width: 451px){
+  #board {
+    width: 450px;
+    height: 450px;
+  }
+  .tile {
+    width: 48px;
+    height: 48px;
+    font-size: 20px;
+  }
+  #digits {
+    width: 450px;
+    height: 50px;
+  }
+  .number {
+    width: 44px;
+    height: 44px;
+    font-size: 20px;
+  }
+  #instructions {
+    width: 450px;
+    height: 150px;
+  }
+  .steps {
+    width: 440px;
+    height: 24px;
+    font-size: 16px;
+  }
+  #complement {
+    font-size: 12px;
+  }
+}
+```
+3. Las definiciones de `width`, `height` y `font-size`, las quitamos
+de los otros elementos para evitar repeticiones inecesarias.
+
+## 12. Solución calculada al inicio
+
+1. En el archivo **`sudoku.js`** clonamos el arreglo `board`, dentro 
+de el método `setGame()`:
+```js
+const puzzle = [...board];
+```
+2. Cargamos `solution` desde la función `solveSudoku()` en el 
+método `setGame()`:
+```js
+solution = solveSudoku(puzzle);
+```
+3. Eliminamos el archivo **`solution.js`**.
+4. Dentro de **`sudoku.js`** eliminamos la importación de el 
+método `getSolution()`.

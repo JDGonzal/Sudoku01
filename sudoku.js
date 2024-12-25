@@ -1,6 +1,5 @@
 /* eslint-disable camelcase */
 import getBoard from './board.js';
-import getSolution from './solution.js';
 
 let numSelected = null;
 let tileSelected = null;
@@ -36,8 +35,10 @@ window.onload = () => {
 const setGame = () => {
   // Cargamos el `board`
   board = getBoard(WHICH);
+  // Es mejor clonarlo para evitar sobrescriba el `board` original
+  const puzzle = [...board];
   // Cargamos el `solution`
-  solution = getSolution(WHICH);
+  solution = solveSudoku(puzzle);
   // Los digitos de 1-9
   for (let i = 1; i <= 9; i++) {
     // <div id="1">1</div> en js
@@ -189,7 +190,7 @@ function showStep () {
       }
       break;
     default:
-      console.log(0);
+      console.warn('Complete los pasos 1 y 2.');
       break;
   }
 }
@@ -197,6 +198,7 @@ function showStep () {
 const testAuto1 = () => {
   const puzzle = solveSudoku(board);
   showSolution(puzzle);
+  console.table(puzzle);
   console.timeLog('testAuto1');
 };
 
@@ -243,7 +245,6 @@ const solveSudoku = (puzzle) => {
     return false; // Finalizo el proceso de `recurse()`
   }
   recurse(0); // Llamo la función interna `recurse()`
-  console.table(puzzle);
   return puzzle; // devuelvo el valor del `puzzle`
 };
 
