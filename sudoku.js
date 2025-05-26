@@ -10,7 +10,7 @@ let posExample = '';
 
 let errors = 0;
 
-const WHICH = 23; 
+const WHICH = 24; 
 
 let board = [];
 let solution = [];
