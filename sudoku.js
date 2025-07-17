@@ -11,6 +11,7 @@ let posExample = '';
 let errors = 0;
 
 const WHICH = 31;
+let currentBoardIndex = WHICH; // El índice del tablero que se va a resolver
 
 let board = [];
 let solution = [];
@@ -24,17 +25,21 @@ const instructions = [
   '1: Selecciona un número de la parte inferior.',
   '2: Dale click en una casilla vacía de arriba.',
   '3: Llenar los espacios con los números del 1 al 9.',
-  '4: No repetir en Horizontal o Vertical o en los cuadros 3x3.'];
+  '4: No repetir en Horizontal o Vertical o en los cuadros 3x3.',
+];
 
 // Cuando se muestra la pantalla
 window.onload = () => {
+  // Cargamos el `board`
+  board = getBoard(WHICH);
+  document.getElementById('title').innerText = `Sudoku ${WHICH + 1}/${
+    WHICH + 1
+  }`;
   setGame(); // Llamo esta función
 };
 
 // Inicializa el juego
 const setGame = () => {
-  // Cargamos el `board`
-  board = getBoard(WHICH);
   // Es mejor clonarlo para evitar sobrescriba el `board` original
   const puzzle = [...board];
   // Cargamos el `solution`
@@ -55,7 +60,7 @@ const setGame = () => {
   // Tablero 9x9
   for (let x = 0; x < 9; x++) {
     for (let y = 0; y < 9; y++) {
-    // <div id="0-0"></div>
+      // <div id="0-0"></div>
       const tileList = document.createElement('div');
       tileList.id = x.toString() + '-' + y.toString(); // definimos `id`
       // Poblamos (Polulate) la cuadrícula con `board`
@@ -90,7 +95,62 @@ const setGame = () => {
   }
 };
 
-function removeBlink () {
+// Función para redibujar el tablero
+const updateBoard = (index) => {
+  // Limpiar el tablero actual
+  document.getElementById('board').innerHTML = '';
+  document.getElementById('digits').innerHTML = '';
+  document.getElementById('instructions').innerHTML = '';
+  // Reiniciar variables
+  numSelected = null;
+  tileSelected = null;
+  stepSelected = null;
+  instructionDone = false;
+  numExample = '';
+  posExample = '';
+  errors = 0;
+  document.getElementById('errors').innerText = 'Errores: 0';
+  document.getElementById('title').innerText = `Sudoku ${index + 1}/${
+    WHICH + 1
+  }`;
+  // Cargar el nuevo tablero
+  setGame();
+};
+
+// Evento para el botón "Anterior"
+document.getElementById('prevButton').addEventListener('click', () => {
+  if (currentBoardIndex > 0) {
+    currentBoardIndex--;
+    board = getBoard(currentBoardIndex);
+    updateBoard(currentBoardIndex);
+  }
+});
+
+// Evento para el botón "Siguiente"
+document.getElementById('nextButton').addEventListener('click', () => {
+  if (currentBoardIndex < WHICH) {
+    // Suponiendo que WHICH es el último 
+    currentBoardIndex++;
+    board = getBoard(currentBoardIndex);
+    updateBoard(currentBoardIndex);
+  }
+});
+
+// Evento para el botón "Primero"
+document.getElementById('firstButton').addEventListener('click', () => {
+  currentBoardIndex = 0;
+  board = getBoard(currentBoardIndex);
+  updateBoard(currentBoardIndex);
+});
+
+// Evento para el botón "Último"
+document.getElementById('lastButton').addEventListener('click', () => {
+  currentBoardIndex = WHICH; // Asumiendo que WHICH es el último índice
+  board = getBoard(currentBoardIndex);
+  updateBoard(currentBoardIndex);
+});
+
+function removeBlink() {
   if (numSelected !== null && instructionDone) {
     numSelected.classList.remove('blink-me');
   }
@@ -99,7 +159,7 @@ function removeBlink () {
   }
 }
 // Va a ser llamado con el `click` de los q tienen clase `number`
-function selectNumber () {
+function selectNumber() {
   if (numSelected !== null) {
     numSelected.classList.remove('number-selected');
     removeBlink();
@@ -119,10 +179,10 @@ function selectNumber () {
       }
     }
   }
-};
+}
 
 // Va a ser llamado con el `click` de los q tienen clase `tile`
-function selectTile () {
+function selectTile() {
   tileSelected = this;
   if (numSelected) {
     removeBlink();
@@ -146,16 +206,15 @@ function selectTile () {
     } else {
       errors += 1; // Incremento los errores.
       // Lo muestro en pantalla el valor incrementado
-      document.getElementById('errors').innerText =
-        'Errores: ' + errors;
+      document.getElementById('errors').innerText = 'Errores: ' + errors;
     }
   } else if (tileSelected.id === '4-4') {
     console.time('testAuto1');
     testAuto1();
   } // Botón invisible
-};
+}
 
-function showStep () {
+function showStep() {
   removeBlink();
   if (instructionDone) return;
   stepSelected = this;
@@ -174,8 +233,8 @@ function showStep () {
       }
       numSelected = document.getElementById(numExample);
       if (!numSelected.classList.contains('number-selected')) {
-        stepSelected.innerText = instructions[i - 1] +
-          ' Ejemplo el ' + numExample + '.';
+        stepSelected.innerText =
+          instructions[i - 1] + ' Ejemplo el ' + numExample + '.';
         numSelected.classList.add('blink-me');
       }
       break;
@@ -206,9 +265,9 @@ const EMPTY = '-';
 const possibleNumbers = ['1', '2', '3', '4', '5', '6', '7', '8', '9'];
 
 // retorno el string con un caracter cambiado en una posición
-function replaceIdx (str, val, idx) {
+function replaceIdx(str, val, idx) {
   return str.slice(0, idx) + val + str.slice(idx + 1);
-};
+}
 
 const solveSudoku = (puzzle) => {
   const emptySpaces = []; // Posiciones de espacios vacíos
@@ -223,7 +282,7 @@ const solveSudoku = (puzzle) => {
   }
 
   // Funcion recursiva para ciclar en si misma
-  function recurse (emptySpaceIndex) {
+  function recurse(emptySpaceIndex) {
     // Se sale si llega al límite de tamaño del arreglo
     if (emptySpaceIndex >= emptySpaces.length) return true;
     // cargamos constantes del objeto almacenado
@@ -249,7 +308,7 @@ const solveSudoku = (puzzle) => {
 };
 
 // Validamos si un número se puede poner en la casilla vacía
-function isValid (num, col, row, board) {
+function isValid(num, col, row, board) {
   // Check col, row, 3x3 matrix
   for (let i = 0; i < board.length; i++) {
     // Verifico en filas `row` y en las columnas `col`
@@ -273,9 +332,10 @@ const showSolution = (puzzle) => {
   for (let x = 0; x < 9; x++) {
     for (let y = 0; y < 9; y++) {
       const num = document.getElementById(x + '-' + y).innerText;
-      if (num === '') { // Si está vacío pongo el número
+      if (num === '') {
+        // Si está vacío pongo el número
         document.getElementById(x + '-' + y).innerText = puzzle[x][y];
       }
     }
-  };
+  }
 };

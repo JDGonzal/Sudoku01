@@ -1356,3 +1356,187 @@ solution = solveSudoku(puzzle);
 3. Eliminamos el archivo **`solution.js`**.
 4. Dentro de **`sudoku.js`** eliminamos la importación de el 
 método `getSolution()`.
+
+## 13. Imagen en el link y el icono del aplicativo
+
+1. Se agregan atributos en el archivo **`index.html`**, para que muestre una imagen cuando se exponga el link:
+```html
+  <head>
+    ...
+    <meta
+      property="og:image"
+      content="https://jdgonzal.github.io/Sudoku01/public/image.png"
+    />
+    <meta
+      property="og:image:secure_url"
+      content="https://jdgonzal.github.io/Sudoku01/public/image.png"
+    />
+    <meta property="og:image:width" content="478" />
+    <meta property="og:image:height" content="624" />
+    <meta property="og:image:alt" content="Sudoku" />
+    <meta
+      property="og:image:type"
+      content="https://jdgonzal.github.io/Sudoku01/public/image/jpeg"
+    />
+  </head>
+```
+2. También se agrega el icono en los _tabs_ del explorador:
+```html
+  <head>
+    ...
+    <link
+      rel="shortcut icon"
+      href="https://jdgonzal.github.io/Sudoku01/public/icon.png"
+    />
+    ...
+  </head>
+```
+3. Por último unas características para que sea mas visual las propiedades y explicaciones del juego:
+```html
+  <head>
+    ...
+    <meta name="description" content="Juega Sudoku siguiendo las reglas" />
+    <meta
+      name="robots"
+      content="follow, index, max-snippet:-1, max-video-preview:-1, max-image-preview:large"
+    />
+    <meta property="og:locale" content="es_ES" />
+    <meta property="og:type" content="game" />
+    <meta property="og:title" content="Sudoku con números de 1 a 9" />
+    ...
+  </head>
+```
+
+## 14. Botones para `Anterior`, `Siguiente` y mas
+
+1. En el archivo **`index.html`** se agregan los botones:
+```html
+    <div id="digits"></div>
+    <br />
+    <div>
+      <button id="prevButton">Anterior</button>
+      <button id="nextButton">Siguiente</button>
+    </div>
+    <br />
+    <h3>Instrucciones</h3>
+```
+2. Se ponen en el archivo **`sudoku.js`**, la activación cuando se hace el `onclick`, para estos botones:
+```js
+// Evento para el botón "Anterior"
+document.getElementById('prevButton').addEventListener('click', () => {
+  if (currentBoardIndex > 0) {
+    currentBoardIndex--;
+    board = getBoard(currentBoardIndex);
+    updateBoard(currentBoardIndex);
+  }
+});
+
+// Evento para el botón "Siguiente"
+document.getElementById('nextButton').addEventListener('click', () => {
+  if (currentBoardIndex < WHICH) {
+    // Suponiendo que WHICH es el último 
+    currentBoardIndex++;
+    board = getBoard(currentBoardIndex);
+    updateBoard(currentBoardIndex);
+  }
+});
+```
+3. Se crea la función `updateBoard()`:
+```js
+// Función para redibujar el tablero
+const updateBoard = (index) => {
+  // Limpiar el tablero actual
+  document.getElementById('board').innerHTML = '';
+  document.getElementById('digits').innerHTML = '';
+  document.getElementById('instructions').innerHTML = '';
+  // Reiniciar variables
+  numSelected = null;
+  tileSelected = null;
+  stepSelected = null;
+  instructionDone = false;
+  numExample = '';
+  posExample = '';
+  errors = 0;
+  document.getElementById('errors').innerText = 'Errores: 0';
+  document.getElementById('title').innerText = `Sudoku ${index + 1}/${
+    WHICH + 1
+  }`;
+  // Cargar el nuevo tablero
+  setGame();
+};
+```
+4. Se ajusta la función `setGame()`, y la asignación de la variable `board` se hace en el `window.onload`:
+```js
+// Cuando se muestra la pantalla
+window.onload = () => {
+  // Cargamos el `board`
+  board = getBoard(WHICH);
+  setGame(); // Llamo esta función
+};
+
+```
+5. Se ponen unos estilos en el archivo **`sudoku.css`**:
+```css
+button {
+  cursor: pointer;
+  background-color: lightblue;
+  border: none;
+  padding: 5px 10px;
+  font-size: 16px;
+  border-radius: 5px;
+}
+button:hover {
+  background-color: orange;
+}
+```
+6. Agregamos dos botones mas para ir a `Primero` y `Último` en el archivo **`index.html`** :
+```html
+    <div id="digits"></div>
+    <br />
+    <div>
+      <button id="firstButton">Primero</button>
+      <button id="prevButton">Anterior</button>
+      <button id="nextButton">Siguiente</button>
+      <button id="lastButton">Último</button>
+    </div>
+    <br />
+    <h3>Instrucciones</h3>
+```
+7. Lo mismo en el archivo **`sudoku.js`**, para la activación cuando se hace el `onclick`, para estos botones:
+```js
+// Evento para el botón "Primero"
+document.getElementById('firstButton').addEventListener('click', () => {
+  currentBoardIndex = 0;
+  board = getBoard(currentBoardIndex);
+  updateBoard(currentBoardIndex);
+});
+
+// Evento para el botón "Último"
+document.getElementById('lastButton').addEventListener('click', () => {
+  currentBoardIndex = WHICH; // Asumiendo que WHICH es el último índice
+  board = getBoard(currentBoardIndex);
+  updateBoard(currentBoardIndex);
+});
+```
+8. Le ponemos un `id` para el _title_ y se corrije para _errors_:
+```html
+   <div>
+      <h1 id= "title">Sudoku</h1>
+    </div>
+    <br />
+    <div>
+      <h2 id="errors">Errores: 0</h2>
+    </div>
+```
+9. Usamos el `id` para el _title_ , uno ya esta en el nuevo `updateBoard()` y el otro va a ester en `window.onload`:
+```js
+// Cuando se muestra la pantalla
+window.onload = () => {
+  // Cargamos el `board`
+  board = getBoard(WHICH);
+  document.getElementById('title').innerText = `Sudoku ${WHICH + 1}/${
+    WHICH + 1
+  }`;
+  setGame(); // Llamo esta función
+};
+```
