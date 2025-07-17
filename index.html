@@ -1,46 +1,67 @@
 <!DOCTYPE html>
 <html lang="es-CO" prefix="og: https://ogp.me/ns#">
-  
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Sudoku</title>
-  <link rel="shortcut icon" href="https://jdgonzal.github.io/Sudoku01/public/icon.png" />
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sudoku</title>
+    <link
+      rel="shortcut icon"
+      href="https://jdgonzal.github.io/Sudoku01/public/icon.png"
+    />
 
-  <script type="module" src="sudoku.js"></script>
-  <meta name="description" content="Juega Sudoku siguiendo las reglas">
-  <meta name="robots" content="follow, index, max-snippet:-1, max-video-preview:-1, max-image-preview:large">
-  <meta property="og:locale" content="es_ES">
-  <meta property="og:type" content="game">
-  <meta property="og:title" content="Sudoku con números de 1 a 9">
-  <meta property="og:image" content="https://jdgonzal.github.io/Sudoku01/public/image.png">
-  <meta property="og:image:secure_url" content="https://jdgonzal.github.io/Sudoku01/public/image.png">
-  <meta property="og:image:width" content="478">
-  <meta property="og:image:height" content="624">
-  <meta property="og:image:alt" content="Sudoku">
-  <meta property="og:image:type" content="https://jdgonzal.github.io/Sudoku01/public/image/jpeg">
-</head>
-<body>
-  <div>
-    <h1>Sudoku</h1>
-  </div>
-  <br>
-  <div id="errors">
-    <h2 >Errores: 0</h2> 
-  </div>
-   
+    <script type="module" src="sudoku.js"></script>
+    <meta name="description" content="Juega Sudoku siguiendo las reglas" />
+    <meta
+      name="robots"
+      content="follow, index, max-snippet:-1, max-video-preview:-1, max-image-preview:large"
+    />
+    <meta property="og:locale" content="es_ES" />
+    <meta property="og:type" content="game" />
+    <meta property="og:title" content="Sudoku con números de 1 a 9" />
+    <meta
+      property="og:image"
+      content="https://jdgonzal.github.io/Sudoku01/public/image.png"
+    />
+    <meta
+      property="og:image:secure_url"
+      content="https://jdgonzal.github.io/Sudoku01/public/image.png"
+    />
+    <meta property="og:image:width" content="478" />
+    <meta property="og:image:height" content="624" />
+    <meta property="og:image:alt" content="Sudoku" />
+    <meta
+      property="og:image:type"
+      content="https://jdgonzal.github.io/Sudoku01/public/image/jpeg"
+    />
+  </head>
+  <body>
+    <div>
+      <h1 id= "title">Sudoku</h1>
+    </div>
+    <br />
+    <div>
+      <h2 id="errors">Errores: 0</h2>
+    </div>
 
-  <!-- 9x9 board -->
-  <div id = "board"></div>
-  <br>
-  <div id = "digits"></div>
-  <br>
-  <h3>Instrucciones</h3>
-  <div id = "complement">(Poner el puntero del mouse encima de cada paso, para mayor claridad)</div>
-  <div id = "instructions"></div>
-
-</body>
-<footer>
-  <link rel="stylesheet" href="sudoku.css">
-</footer>
+    <!-- 9x9 board -->
+    <div id="board"></div>
+    <br />
+    <div id="digits"></div>
+    <br />
+    <div>
+      <button id="firstButton">Primero</button>
+      <button id="prevButton">Anterior</button>
+      <button id="nextButton">Siguiente</button>
+      <button id="lastButton">Último</button>
+    </div>
+    <br />
+    <h3>Instrucciones</h3>
+    <div id="complement">
+      (Poner el puntero del mouse encima de cada paso, para mayor claridad)
+    </div>
+    <div id="instructions"></div>
+  </body>
+  <footer>
+    <link rel="stylesheet" href="sudoku.css" />
+  </footer>
 </html>
