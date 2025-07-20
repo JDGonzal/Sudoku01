@@ -3,12 +3,13 @@
 [![How to Build Sudoku JavaScript Tutorial](images/2024-11-19_182450.png "How to Build Sudoku JavaScript Tutorial")](https://www.youtube.com/watch?v=S4uRtTb8U-U)
 
 ## 01. Empezando con el archivo **`sudoku.html`**
+
 1. Crear tres (3) archivos en la raíz del proyecto:
 * **`sudoku.html`**
 * **`sudoku.css`**
 * **`sudoku.js`**
 
-2. Empeando con el archivo **`sudoku.html`**, empezamos escribiendo 
+2. Empeando con el archivo **`sudoku.html`**, empezamos escribiendo
 `html` y seleccionamos `html:5`:
 ```html
 <!DOCTYPE html>
@@ -64,6 +65,7 @@
 ```
 
 ## 02. Seguimos con el archivo **`sudoku.css`**
+
 1. Cargamos el tema que va a usar el `<body>`:
 ```css
 body {
@@ -143,32 +145,34 @@ hr {
   align-items: center;  
 ```
 >[!IMPORTANT]
+>
 >### Precondiciones para trabajar con `javascript`
->1. Tener el Editor [Visual Studio Code]>(https://code.visualstudio.com/insiders/).
->2. Extensiones insaladas dentro de 
+>
+>1. Tener el Editor [Visual Studio Code](https://code.visualstudio.com/insiders/).
+>2. Extensiones insaladas dentro de
 >`Visual Studio Code`:  
->  * [Better Comments](https://marketplace.visualstudio.com/items?>itemName=aaron-bond.better-comments) 
+> * [Better Comments](https://marketplace.visualstudio.com/items?>itemName=aaron-bond.better-comments)
 >de [Aaron Bond](https://aaronbond.co.uk/).
->  * [Error Lens](https://marketplace.visualstudio.com/items?>itemName=usernamehw.errorlens) 
+> * [Error Lens](https://marketplace.visualstudio.com/items?>itemName=usernamehw.errorlens)
 >de [Alexander](https://marketplace.visualstudio.com/publishers/usernamehw).
->  * [Javascript-Essentials](https://marketplace.visualstudio.com/items?itemName=Gydunhn.javascript-essentials)
->  de [Gydunhn](https://marketplace.visualstudio.com/publishers/Gydunhn),  
->  Este instala un paquete con:
->    * ESLint
->    * npm Intellisense 
->    * IntelliCode
->    * JavaScript (ES6) code snippets
->    * Debugger for Firefox
->    * Path Intellisense
->    * Formatting Toggle
->  * [Live Server](https://marketplace.visualstudio.com/items?itemName=ritwickdey.LiveServer)
->  de [Ritwick Dey](https://marketplace.visualstudio.com/publishers/ritwickdey).
->  * [Image preview](https://marketplace.visualstudio.com/items?itemName=kisstkondoros.vscode-gutter-preview)
->  de [Kiss Tamás](https://marketplace.visualstudio.com/publishers/kisstkondoros) 
+> * [Javascript-Essentials](https://marketplace.visualstudio.com/items?itemName=Gydunhn.javascript-essentials)
+> de [Gydunhn](https://marketplace.visualstudio.com/publishers/Gydunhn),  
+> Este instala un paquete con:
+>   * ESLint
+>   * npm Intellisense
+>   * IntelliCode
+>   * JavaScript (ES6) code snippets
+>   * Debugger for Firefox
+>   * Path Intellisense
+>   * Formatting Toggle
+> * [Live Server](https://marketplace.visualstudio.com/items?itemName=ritwickdey.LiveServer)
+> de [Ritwick Dey](https://marketplace.visualstudio.com/publishers/ritwickdey).
+> * [Image preview](https://marketplace.visualstudio.com/items?itemName=kisstkondoros.vscode-gutter-preview)
+> de [Kiss Tamás](https://marketplace.visualstudio.com/publishers/kisstkondoros)
 >3. Instalar `nvm` descargando el instalador desde este sitio:
 [nvm-setup.exe](https://github.com/coreybutler/nvm-windows/releases/download/1.1.12/nvm-setup.exe).
 >4. Instalar el `node`, que a su vez
->trae el `npm` basado en este sitio: 
+>trae el `npm` basado en este sitio:
 >[Instalar múltiples versiones de Node.js en Windows](https://rafaelneto.dev/blog/instalar-multiples-versiones-nodejs-windows/).  
 >Con el `nvm` permite múltiples versiones
 >del `node`.
@@ -177,7 +181,9 @@ hr {
 >[pnpm Installation](https://pnpm.io/installation).
 
 >[!TIP]  
+>
 >### ESLint o Analizador estático de código fuente de `javascript`
+>
 >1. Tener instalado de forma global el `eslint`, con el comando:
 >```bash
 >npm install -g eslint
@@ -205,14 +211,14 @@ hr {
 >   }
 > }
 >```
->4. Presiono en `Visual Studio Code` las teclas: 
+>4. Presiono en `Visual Studio Code` las teclas:
 > [`Ctrl`] + [`Shift`] + [`P`]  
 > y selecciono o busco `Restart ESLint Server`
 
 ## 03. Ponemos el tablero y los números desde **`sudoku.js`**
 
 >[!TIP]  
->Esta es la solición propuesta para implementar en el archivo 
+>Esta es la solición propuesta para implementar en el archivo
 >**`sudoku.js`**:  
 >![sudoku plan inicial](images/2024-11-20_120909.png)
 
@@ -309,8 +315,8 @@ for (let x = 0; x < 9; x++) {
 }
 ```
 
-8. Quitamos de **`sudoku.css`** las lineas de 
-`background-color: yellow;`, tanto en el `#board`, como en el 
+8. Quitamos de **`sudoku.css`** las lineas de
+`background-color: yellow;`, tanto en el `#board`, como en el
 `#digits`.
 
 >[!NOTE]  
@@ -318,9 +324,9 @@ for (let x = 0; x < 9; x++) {
 >![sudoku cuadricula en blanco](images/2024-11-20_180309.png)
 
 >[!WARNING]  
->Como se ejecutaron elementos de `npm` y/o `pnpm`, este genera un 
+>Como se ejecutaron elementos de `npm` y/o `pnpm`, este genera un
 >gigantesco directorio de nombre "`node_modules`", por tanto se deben
->crear el archivo **`.gitignore`**, con al menos esta información, así 
+>crear el archivo **`.gitignore`**, con al menos esta información, así
 >se evita subir información innecesaria al repositorio:
 >```py
 ># Logs
@@ -352,15 +358,16 @@ for (let x = 0; x < 9; x++) {
 >```
 
 ## 04. Empezamos el juego y sus reglas en **`sudoku.js`**
+
 1. Creamos la función `selectNumber()`, por ahora vacía:  
 `const selectNumber = () => {}`
-2. En el método `setGame()`, añadimos al `numberList` la _escucha_ 
+2. En el método `setGame()`, añadimos al `numberList` la _escucha_
 del `'click'`, justo debajo del `innerText = i`, llamando la nueva
 función:
 ```js
     numberList.addEventListener('click', selectNumber);
 ```
-3. Cada ve que seleccionamos un número, cambiamos el color de la 
+3. Cada ve que seleccionamos un número, cambiamos el color de la
 casilla basados en la clase `number-selected` en el archivo
  **`sudoku.css`**:
 ```css
@@ -382,7 +389,7 @@ function selectNumber () {
 ```
 * Cada vez que haga click al número de abajo, se pone de fondo `gray`.
 
-5. En la función `selectNumber()`, antes de crear la clase 
+5. En la función `selectNumber()`, antes de crear la clase
 `'number-selected'`, preguntamos si es `null` para eliminar dicha clase:
 ```js
 function selectNumber () {
@@ -412,8 +419,8 @@ function selectTile () {
   }
 }
 ```
-7. En el método `setGame()`, añadimos al `tileList` la _escucha_ 
-del `'click'`, justo debajo del `tileList.id = `, llamando la nueva
+7. En el método `setGame()`, añadimos al `tileList` la _escucha_
+del `'click'`, justo debajo del `tileList.id =`, llamando la nueva
 función `selectTile()`:
 ```js
     tileList.addEventListener('click', selectTile);
@@ -436,7 +443,8 @@ el archivo **`sudoku.js`**, en el método `setGame()` debajo de
       }
 ```
 
->[!WARNING]  
+>[!WARNING]
+>
 >### Se debe corregir la variable `board`, pues faltaba una fila.
 
 >[!TIP]  
@@ -454,6 +462,7 @@ el archivo **`sudoku.js`**, en el método `setGame()` debajo de
 >```
 
 ## 05. Completando el juego de forma manual
+
 1. En el archivo **`sudoku.css`** invocamos una clase de nombre
 `class = 'tile-start'`:
 ```css
@@ -462,7 +471,7 @@ el archivo **`sudoku.js`**, en el método `setGame()` debajo de
 }
 ```
 2. En el archivo **`sudoku.js`** en el método `setGame()`, cuando se
-está creando el `Tablero 9x9`, dentro del condicional 
+está creando el `Tablero 9x9`, dentro del condicional
 `if (board[x][y] !== '-')`, añadimo esto:
 ```js
       if (board[x][y] !== '-') {
@@ -497,7 +506,7 @@ las `.horizontal-line` y las `.vertical-line`:
 >Así se ve hasta el momento el juego en pantalla:  
 >![sutoku 3x3](images/2024-11-22_154913.png)
 
-5. Empezamos el proceso para comparar con la solución, en 
+5. Empezamos el proceso para comparar con la solución, en
 **`sudoku.js`**, dentro del método `selectTile()`, creamos una
 variable con las coordenadas en forma de arreglo `string`:
 ```js
@@ -514,9 +523,9 @@ variable con las coordenadas en forma de arreglo `string`:
       this.innerText = numSelected.id;
     }
 ```
-8. Elimino o comento la línea anterior en el método `selectTile()` 
+8. Elimino o comento la línea anterior en el método `selectTile()`
 con las asignación `this.innerText = numSelected.id;`.
-9. Agregamos un `else` a la condición 
+9. Agregamos un `else` a la condición
 `if (solution[x][y] === numSelected.id)`:
 ```js
     if (solution[x][y] === numSelected.id) {
@@ -530,7 +539,7 @@ con las asignación `this.innerText = numSelected.id;`.
 
 ## 06. Iniciando el método `testAuto1()` con la carga de los 3 arreglos
 
-1. Creo una función de nombre `testAuto1()`, por ahora con un 
+1. Creo una función de nombre `testAuto1()`, por ahora con un
 `console.log`:
 ```js
 const testAuto1 = () => {
@@ -545,7 +554,7 @@ número alguno:
     ...
   } else if (this.id === '4-4') { testAuto1(); } // Botón invisible
 ```
-3. Creamos 3 arreglos para las validaciones automáticas `rows`, 
+3. Creamos 3 arreglos para las validaciones automáticas `rows`,
 `columns`, `squares`, debajo de `solution`:
 ```js
   const rows = []; // Filas del `board`
@@ -554,7 +563,7 @@ número alguno:
 ```
 4. Creamos un método de nombre `loadingArrays()`, para la carga de los
 arreglos.
-5. dentro del método `testAuto1()`, llamamos el método 
+5. dentro del método `testAuto1()`, llamamos el método
 `loadingArrays()`.
 6. Dentro del método `loadingArrays()` hago un recorrido por la matriz
 `board`, para cargar los tres arreglos:
@@ -605,11 +614,12 @@ arreglos.
 
 
 ## 07. Creamos el método `solveSudoku()`
+
 >[!TIP]  
 >Basados en el siguiente video, vamos a probar la solución:  
->[]()
-[![Sudoku Solver - LeetCode 37 - JavaScript](images/2024-11-27_073851.png "Sudoku Solver - LeetCode 37 - JavaScript")](https://www.youtube.com/watch?v=3nZ45g5yhG0)
-1. Creamos una variable para almacenar lo vacío y un arreglo de 
+>
+>[![Sudoku Solver - LeetCode 37 - JavaScript](images/2024-11-27_073851.png "Sudoku Solver - LeetCode 37 - JavaScript")](https://www.youtube.com/watch?v=3nZ45g5yhG0)
+1. Creamos una variable para almacenar lo vacío y un arreglo de
 valores posibles, debajo del método `testAuto1()`:
 ```js
 const EMPTY = '-';
@@ -623,7 +633,7 @@ const solveSudoku = (puzzle) => {
   console.log(EMPTY, possibleNumbers);
 };
 ```
-3. En el método `testAuto1()` llamamos la función `solveSudoku()`, 
+3. En el método `testAuto1()` llamamos la función `solveSudoku()`,
 enviando de parámetro la variable `board`:  
 `solveSudoku(board);`
 
@@ -674,7 +684,7 @@ function isValid (num, row, col, ind) {
 ```
 >[!TIP]  
 >Hice unos cambios sacando la obtención del `index` para los cuadrados
->de 3x3 `s3x3` 
+>de 3x3 `s3x3`
 >1. Defino la variable `delta` debajo de la `const s3x3`.
 >```js
 >let delta = 0; // Para el arreglo `s3x3`
@@ -687,7 +697,7 @@ function isValid (num, row, col, ind) {
 >  return Math.floor((x + delta) / 3) + Math.floor((y + delta) / 3);
 >}
 >```
->3. Antes de hacer el recorrido, la variable `delta` se inicializa en 
+>3. Antes de hacer el recorrido, la variable `delta` se inicializa en
 >cero `0`.
 >4. Asigno lo obtenido de la función a una constante:
 >```js
@@ -695,7 +705,7 @@ function isValid (num, row, col, ind) {
 >```
 
 >[!TIP]  
->El método `loadingArrays()` le asigno un parámetro y con eso es que 
+>El método `loadingArrays()` le asigno un parámetro y con eso es que
 >vamos a trabajar, para cargar los tres arreglos que se utilizan en la
 >función `isValid()`:
 >* `rows`
@@ -791,7 +801,7 @@ al final del método `solveSudoku()`:
   recurse(0); // Llamo la función interna `recurse()`
 ```
 10. Borramos todos los `console.log`.
-11. En el método `testAuto1()` quedaría así, con el único 
+11. En el método `testAuto1()` quedaría así, con el único
 `console.log`:
 ```js
 const testAuto1 = () => {
@@ -816,6 +826,7 @@ const testAuto1 = () => {
 >```
 
 ## 08. Mostrar la solución y poner otros `board`
+
 1. Creamos el método `showSolution()` con el parámetro del `puzzle`:
 ```js
 const showSolution = (puzzle) => {
@@ -830,7 +841,7 @@ const showSolution = (puzzle) => {
   };
 };
 ```
-3. En el método `testAuto1()`, llamo el `showSolution()`, y como 
+3. En el método `testAuto1()`, llamo el `showSolution()`, y como
 parámetro la respuesta obtenida de `solveSudoku()`:
 ```js
 const testAuto1 = () => {
@@ -873,6 +884,7 @@ const solution = [
 `return puzzle;` en la función `solveSudoku ()`.
 
 ## 09. Mejoras en el código
+
 1. El tiempo de respuesta de el método `isValid()` puede tomar mucho
 tiempo, y esto es debido a la recarga constante de los arreglos con
 `loadingArrays()`, mejoraremos `isValid()`, para luego dejar a un lado
@@ -903,12 +915,12 @@ function isValid (num, col, row, board) {
 * `let s3x3 = []`
 * `let delta = 0`
 3. Borramos las funciones :
-* `getIndexSquare3x3 (x, y)` 
+* `getIndexSquare3x3 (x, y)`
 * `loadingArrays (puzzle)`
 4. Se borran donde sean llamadas tanto las funciones como las variables.
 
 >[!TIP]  
->Hay una disminución de tiempo a la mitad con respecto al proceso 
+>Hay una disminución de tiempo a la mitad con respecto al proceso
 >anterior.
 
 5. Creo dos archivos **`board.js`** y **`solution.js`**, en la
@@ -952,7 +964,7 @@ import getSolution from './solution.js';
 let board = [];
 let solution = [];
 ```
-8. En la función `setGame()` de primero cargamos las dos nuevas 
+8. En la función `setGame()` de primero cargamos las dos nuevas
 variables:
 ```js
   // Cargamos el `board`
@@ -965,7 +977,7 @@ variables:
 
 >[!IMPORTANT]  
 >Siguiendo la lógica de los planos cartesianos, si te desplazas
->en el eje `x`, te mueves sobre las `col` (columnas) y si te 
+>en el eje `x`, te mueves sobre las `col` (columnas) y si te
 >desplazas en el eje `y`, te mueves sobre las `row` (filas), entoces
 >cambíe mucho del código para hacer los equivalentes a estos, los que
 >considero los valores correctos:
@@ -977,7 +989,7 @@ variables:
 >```js
 >    const { col, row } = emptySpaces[emptySpaceIndex];
 >```
->3. En la función `recurse`, cuando cargamos el tablero y hacemos un 
+>3. En la función `recurse`, cuando cargamos el tablero y hacemos un
 >paso atrás:
 >```js
 >        puzzle[col] = replaceIdx(puzzle[col], num, row);
@@ -1009,6 +1021,7 @@ variables:
 >```
 
 ## 10. Publicar el archivo en github e instrucciones
+
 1. Lo primero es cambiar el nombre del archivo **`soudoku.html`**
 por **`index.html`**.
 2. Subimos los cambios al repositiorio.
@@ -1018,7 +1031,7 @@ arriba a las derecha `Settings`
 5. En esta opción "`Build and deployment`", para el `Source`, lo
 dejamos en `Deploy from a branch`.
 6. De la lista seleccionamos el `main` y presionamos el botón [`Save`].
-7. Esperamos de 5 a 10 minutos, refrescando la página, hasta que 
+7. Esperamos de 5 a 10 minutos, refrescando la página, hasta que
 aparece arriba el link que vamos a ver, en mi caso así quedó el sitio:
 [jdgonzal.github.io/Sudoku01/](https://jdgonzal.github.io/Sudoku01/)
 
@@ -1026,7 +1039,7 @@ aparece arriba el link que vamos a ver, en mi caso así quedó el sitio:
 >Aquí está el video con las instrucciones por si hay dudas:  
 >[Publicar web gratis con Github](https://www.youtube.com/watch?v=8IdBAysf-U4 "2024-04-10")
 
-8. Creamos en el **`index.html`**, debajo de 
+8. Creamos en el **`index.html`**, debajo de
 `<div id = "digits"></div>` otros elementos:
 ```html
   <br>
@@ -1046,7 +1059,7 @@ aparece arriba el link que vamos a ver, en mi caso así quedó el sitio:
   flex-wrap: wrap;   
 }
 ```
-10. Creamos en **`sudoku.js`** el arreglo `instructions`, con un 
+10. Creamos en **`sudoku.js`** el arreglo `instructions`, con un
 texto para mostar en pantalla:
 ```js
 const instructions = [
@@ -1055,7 +1068,7 @@ const instructions = [
   'Step 3: iiiiiiiiiii',
   'Step 4: -*-*-*-*-*-'];
 ```
-11. Al final del método `setGame()` hacemos un recorrido por el 
+11. Al final del método `setGame()` hacemos un recorrido por el
 arreglo `instructions`, para ponerlo en pantalla:
 ```js
   for (let i = 0; i < instructions.length; i++) {
@@ -1157,7 +1170,7 @@ function showStep () {
   }
 }
 ```
-18. En el archivo **`sudoku.css`** ponemos lo relacionado con la 
+18. En el archivo **`sudoku.css`** ponemos lo relacionado con la
 clase `blink-me`:
 ```css
 .blink-me {
@@ -1178,7 +1191,7 @@ clase `blink-me`:
   <div id = "complement">(Poner el puntero del mouse encima de cada paso, para mayor claridad)</div>
   <div id = "instructions"></div>
 ```
-20. En el archivo **`sudoku.css`** ponemos lo relacionado con el 
+20. En el archivo **`sudoku.css`** ponemos lo relacionado con el
 id `complement`:
 ```css
 #complement {
@@ -1218,14 +1231,14 @@ function removeBlink () {
   numSelected.classList.add('number-selected'); // sudoku.css
   removeBlink();
 ```
-25. En la función `selectTile()`, asociamos el `this` a 
-`tileSelected`, se sigue usando `tileSelected` y se llama el 
+25. En la función `selectTile()`, asociamos el `this` a
+`tileSelected`, se sigue usando `tileSelected` y se llama el
 `removeBlink()` en el proceso:
 ```js
     tileSelected = this;
     removeBlink();
 ```
-26. Justo cuando empieza la función `showStep()` se llama a 
+26. Justo cuando empieza la función `showStep()` se llama a
 `removeBlink()`.
 27. Así queda en definitiva en el archivo **`sudoku.css`**
 la clase `steps`:
@@ -1255,7 +1268,7 @@ errores también se hizo el cambio:
       document.getElementById('errors').innerText =
         'Errores: ' + errors;
 ```
- 
+
  >[!NOTE]  
 >Así se ve la imagen en pantalla con los últimos cambios:  
 >![Instrucciones completas](images/2024-12-03_172948.png "Instrucciones completas")
@@ -1343,18 +1356,17 @@ de los otros elementos para evitar repeticiones inecesarias.
 
 ## 12. Solución calculada al inicio
 
-1. En el archivo **`sudoku.js`** clonamos el arreglo `board`, dentro 
-de el método `setGame()`:
+1. En el archivo **`sudoku.js`** clonamos el arreglo `board`, dentro de el método `setGame()`:
 ```js
 const puzzle = [...board];
 ```
-2. Cargamos `solution` desde la función `solveSudoku()` en el 
+2. Cargamos `solution` desde la función `solveSudoku()` en el
 método `setGame()`:
 ```js
 solution = solveSudoku(puzzle);
 ```
 3. Eliminamos el archivo **`solution.js`**.
-4. Dentro de **`sudoku.js`** eliminamos la importación de el 
+4. Dentro de **`sudoku.js`** eliminamos la importación de el
 método `getSolution()`.
 
 ## 13. Imagen en el link y el icono del aplicativo
