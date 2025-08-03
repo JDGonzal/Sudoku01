@@ -10,7 +10,7 @@ let posExample = '';
 
 let errors = 0;
 
-const WHICH = 32;
+const WHICH = 33;
 let currentBoardIndex = WHICH; // El índice del tablero que se va a resolver
 
 let board = [];
@@ -129,7 +129,7 @@ document.getElementById('prevButton').addEventListener('click', () => {
 // Evento para el botón "Siguiente"
 document.getElementById('nextButton').addEventListener('click', () => {
   if (currentBoardIndex < WHICH) {
-    // Suponiendo que WHICH es el último 
+    // Suponiendo que WHICH es el último
     currentBoardIndex++;
     board = getBoard(currentBoardIndex);
     updateBoard(currentBoardIndex);
