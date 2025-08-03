@@ -69,6 +69,6 @@ const board = [
     '---9----7', '--9-3-6--', '--6-7----', '--16---84'],
 ];
 
-export default function getBoard (WHICH) {
+export default function getBoard(WHICH) {
   return board[WHICH];
 }
