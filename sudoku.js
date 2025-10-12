@@ -10,7 +10,7 @@ let posExample = '';
 
 let errors = 0;
 
-const WHICH = 42;
+const WHICH = 43;
 let currentBoardIndex = WHICH; // El índice del tablero que se va a resolver
 
 let board = [];
@@ -150,7 +150,7 @@ document.getElementById('lastButton').addEventListener('click', () => {
   updateBoard(currentBoardIndex);
 });
 
-function removeBlink() {
+function removeBlink () {
   if (numSelected !== null && instructionDone) {
     numSelected.classList.remove('blink-me');
   }
@@ -159,7 +159,7 @@ function removeBlink() {
   }
 }
 // Va a ser llamado con el `click` de los q tienen clase `number`
-function selectNumber() {
+function selectNumber () {
   if (numSelected !== null) {
     numSelected.classList.remove('number-selected');
     removeBlink();
@@ -182,7 +182,7 @@ function selectNumber() {
 }
 
 // Va a ser llamado con el `click` de los q tienen clase `tile`
-function selectTile() {
+function selectTile () {
   tileSelected = this;
   if (numSelected) {
     removeBlink();
@@ -214,7 +214,7 @@ function selectTile() {
   } // Botón invisible
 }
 
-function showStep() {
+function showStep () {
   removeBlink();
   if (instructionDone) return;
   stepSelected = this;
@@ -265,7 +265,7 @@ const EMPTY = '-';
 const possibleNumbers = ['1', '2', '3', '4', '5', '6', '7', '8', '9'];
 
 // retorno el string con un caracter cambiado en una posición
-function replaceIdx(str, val, idx) {
+function replaceIdx (str, val, idx) {
   return str.slice(0, idx) + val + str.slice(idx + 1);
 }
 
@@ -282,7 +282,7 @@ const solveSudoku = (puzzle) => {
   }
 
   // Funcion recursiva para ciclar en si misma
-  function recurse(emptySpaceIndex) {
+  function recurse (emptySpaceIndex) {
     // Se sale si llega al límite de tamaño del arreglo
     if (emptySpaceIndex >= emptySpaces.length) return true;
     // cargamos constantes del objeto almacenado
@@ -308,7 +308,7 @@ const solveSudoku = (puzzle) => {
 };
 
 // Validamos si un número se puede poner en la casilla vacía
-function isValid(num, col, row, board) {
+function isValid (num, col, row, board) {
   // Check col, row, 3x3 matrix
   for (let i = 0; i < board.length; i++) {
     // Verifico en filas `row` y en las columnas `col`
