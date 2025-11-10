@@ -10,7 +10,7 @@ let posExample = '';
 
 let errors = 0;
 
-const WHICH = 46;
+const WHICH = 47;
 let currentBoardIndex = WHICH; // El índice del tablero que se va a resolver
 
 let board = [];
