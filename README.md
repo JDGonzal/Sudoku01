@@ -149,7 +149,7 @@ hr {
 >### Precondiciones para trabajar con `javascript`
 >
 >1. Tener el Editor [Visual Studio Code](https://code.visualstudio.com/insiders/).
->2. Extensiones insaladas dentro de
+>2. Extensiones instaladas dentro de
 >`Visual Studio Code`:  
 > * [Better Comments](https://marketplace.visualstudio.com/items?>itemName=aaron-bond.better-comments)
 >de [Aaron Bond](https://aaronbond.co.uk/).
@@ -280,7 +280,7 @@ ponerlos como un `<div>` en pantalla, como un hijo de `id = "digits"`:
 
 >[!WARNING]  
 >Corregí en **`sudoku.css`** las clases `.tile` y `.number`, las
->propiedades de `width:` y `height:` agretando la partícula `px`,
+>propiedades de `width:` y `height:` agregando la partícula `px`,
 >después del número o el valor;
 
 6. En el archivo **`sudoku.css`**, le agregamos un espacio en lo
