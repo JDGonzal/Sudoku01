@@ -1,3 +1,8 @@
+<!-- markdownlint-disable MD012 -->
+<!-- markdownlint-disable MD029 -->
+<!-- markdownlint-disable MD031 -->
+<!-- markdownlint-disable MD032 -->
+<!-- markdownlint-disable MD033 -->
 # SUDOKU01
 
 [![How to Build Sudoku JavaScript Tutorial](images/2024-11-19_182450.png "How to Build Sudoku JavaScript Tutorial")](https://www.youtube.com/watch?v=S4uRtTb8U-U)

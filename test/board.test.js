@@ -29,7 +29,7 @@ const boardCount = (boardSource.match(/^\s{2}\[/gm) || []).length;
 assert.strictEqual(
   WHICH + 1,
   boardCount,
-  `WHICH should be the last valid board index. Expected WHICH + 1 (${WHICH + 1}) to equal the number of boards in board.js (${boardCount}).`
+  `WHICH should be the last valid board index. Expected WHICH + 1 (${WHICH + 1}) to equal the number of boards in board.js (${boardCount}).`,
 );
 
 console.log('All board validation tests passed.');
