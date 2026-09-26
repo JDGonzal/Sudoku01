@@ -10,7 +10,7 @@ let posExample = '';
 
 let errors = 0;
 
-const WHICH = 89;
+const WHICH = 90;
 let currentBoardIndex = WHICH; // El índice del tablero que se va a resolver
 
 let board = [];
@@ -23,7 +23,7 @@ let solution = [];
 */
 const instructions = [
   '1: Selecciona un número de la parte inferior.',
-  '2: Dale click en una casilla vacía de arriba.',
+  '2: Dale clic en una casilla vacía de arriba.',
   '3: Llenar los espacios con los números del 1 al 9.',
   '4: No repetir en Horizontal o Vertical o en los cuadros 3x3.',
 ];
